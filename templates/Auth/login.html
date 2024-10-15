@@ -1,0 +1,22 @@
+{% extends 'base.html' %} {% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <h2>Login</h2>
+            <form method="POST" action="{{ url_for('main.login') }}" id="login_from" onsubmit="return validateLoginForm()">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" name="email" class="form-control" id="email" />
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" name="password" class="form-control" id="password" />
+                </div>
+                <button type="submit" class="btn btn-primary">Login</button>
+            </form>
+            <div id="error-message" class="alert alert-danger" style="display: none;"></div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}
