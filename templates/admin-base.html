@@ -3,52 +3,48 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Laptop Store</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}" />
+    <title>Laptop Dashboard</title>
+    <link rel="icon" href="{{url_for('static', filename='images/icon.png')}}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}" />
     <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}"/>
+    
   </head>
   <body>
-    <header class="p-3 text-bg-light">
+    <header class="p-3 text-bg-light border-bottom shadow-sm">
       <div class="container">
-        <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+        <div class="d-flex flex-wrap align-items-center justify-content-between">
           <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
-            <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"/></svg>
+            <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap">
+              <use xlink:href="#bootstrap"></use>
+            </svg>
+            <span class="fs-4 fw-bolder text-success">Laptop Store</span> 
           </a>
-  
-          <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-            <li><a href="#" class="nav-link px-2 text-secondary">Home</a></li>
-            <li><a href="#" class="nav-link px-2 text-dark">Features</a></li>
-            <li><a href="#" class="nav-link px-2 text-dark">Pricing</a></li>
-            <li><a href="#" class="nav-link px-2 text-dark">FAQs</a></li>
-            <li><a href="#" class="nav-link px-2 text-dark">About</a></li>
+    
+          <ul class="nav col-12 col-lg-auto mb-2 justify-content-center mb-md-0">
+            <li><a href="/dashbaord" class="fs-5 nav-link px-3 text-dark">Products</a></li>
+            <li><a href="#" class="fs-5 nav-link px-3 text-dark">Contact Forms</a></li>
           </ul>
-<!--   
-          <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
-            <input type="search" class="form-control form-control-dark text-bg-light" placeholder="Search..." aria-label="Search">
-          </form>
-   -->
+    
           <div class="text-end">
             {% if session.get('email') %}
             <form action="/logout" onsubmit="logout()">
               <button type="submit" class="btn btn-danger">Logout</button>
             </form>
-            {% else %}
-            <a href="/login" class="btn btn-outline-dark me-2">Login</a>
-            <a href="/register" class="btn btn-warning">Register</a>
             {% endif %}
-          </div>
+            </div>
         </div>
       </div>
     </header>
-    <div >{% block content %} {% endblock %}</div>
+    
+    <div>{% block content %} {% endblock %}</div>
+
+
     {% if session.get('email') %}
 
     <script>
         localStorage.setItem('email', "{{ session['email'] }}");
     </script>
             {% endif %}
-
     <script src="{{url_for('static',filename='js/bootstrap.bundle.min.js')}}"></script>
     <script src="{{url_for('static',filename='js/validation.js')}}"></script>
     <script src="{{url_for('static',filename='js/main.js')}}"></script>

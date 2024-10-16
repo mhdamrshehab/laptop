@@ -1,6 +1,17 @@
 {% extends 'base.html' %} {% block content %}
 <div class="container">
     <div class="row">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+              {% if messages %}
+                <div class="alert-messages">
+                  {% for category, message in messages %}
+                    <div class="alert alert-{{category}}">{{ message }}</div>
+                  {% endfor %}
+                </div>
+              {% endif %}
+            {% endwith %}
+        </div>
+    <div class="row">
         <div class="col-md-6">
             <h2>Login</h2>
             <form method="POST" action="{{ url_for('main.login') }}" id="login_from" onsubmit="return validateLoginForm()">
@@ -18,5 +29,20 @@
 
         </div>
     </div>
+    {% if session.get('isAdmin')==0 %}
+    <script>
+    const userEmail = localStorage.getItem('email');
+    if (userEmail) {
+        window.location.href = "/";
+}
+    </script>
+    {% else %}
+    <script>
+    const adminEmail = localStorage.getItem('email');
+    if (adminEmail) {
+        window.location.href = "/dashbaord";
+}
+    </script>
+    {% endif %} 
 </div>
 {% endblock %}

@@ -1,4 +1,3 @@
-
 function validateLoginForm() {
     let email = document.getElementById("email").value;
     let password = document.getElementById("password").value;
@@ -30,59 +29,73 @@ function validateLoginForm() {
 }
 
 function validateRegisterForm() {
-    let name = document.getElementById("name").value;
-    let email = document.getElementById("email").value;
-    let phone = document.getElementById('phone').value;
-    let username = document.getElementById('username').value;
-    let password = document.getElementById("password").value;
-    let confirm_password = document.getElementById('confirm_password').value;
-    let errorMessage = document.getElementById("error-message");
+    const name = document.getElementById("name").value;
+    const email = document.getElementById("email").value;
+    const phone = document.getElementById('phone').value;
+    const username = document.getElementById('username').value;
+    const password = document.getElementById("password").value;
+    const confirm_password = document.getElementById('confirm_password').value;
+
+
+    let nameError = document.getElementById("name-error");
+    let emailError = document.getElementById("email-error");
+    let phoneError = document.getElementById("phone-error");
+    let usernameError = document.getElementById("username-error");
+    let passwordError = document.getElementById("password-error");
+    let confirmPasswordError = document.getElementById("confirm_password-error");
+    let count = 0;
+
+    nameError.innerHTML = "";
+    emailError.innerHTML = "";
+    phoneError.innerHTML = "";
+    usernameError.innerHTML = "";
+    passwordError.innerHTML = "";
+    confirmPasswordError.innerHTML = "";
 
     let emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
-    let errors = [];
-    errorMessage.style.display = "none";
-    errorMessage.innerHTML = "";
-
-    if (!name && !email && !password&& !username) {
-        errorMessage.style.display = "block";
-        errorMessage.innerHTML = "All fields are required.";
-        return false;
-    }
 
     if (!name) {
-        errorMessage.style.display = "block";
-        errorMessage.innerHTML = "Name cannot be empty.";
-        return false;
+        nameError.innerHTML = "Name cannot be empty.";
+        count++;
     }
 
     if (!username) {
-        errorMessage.style.display = "block";
-        errorMessage.innerHTML = "Username cannot be empty.";
-        return false;
+        usernameError.innerHTML = "Username cannot be empty.";
+        count++;
     }
-
 
     if (!email.match(emailPattern)) {
-        errorMessage.style.display = "block";
-        errorMessage.innerHTML = "Please enter a valid email address.";
-        return false;  
+        emailError.innerHTML = "Please enter a valid email address.";
+        count++;
+  
     }
     if (!phone) {
-        errorMessage.style.display = "block";
-        errorMessage.innerHTML = "Phone cannot be empty.";
-        return false; 
+        phoneError.innerHTML = "Phone number cannot be empty.";
+        count++;
+ 
+    }
+    if (isNaN(phone)) {
+        phoneError.innerHTML = "Phone number must contain numbers only.";
+        count++;
     }
 
     if (!password) {
-        errorMessage.style.display = "block";
-        errorMessage.innerHTML = "Password cannot be empty.";
-        return false; 
+        passwordError.innerHTML = "Password cannot be empty.";
+        count++;
+ 
     }
     if (!confirm_password) {
-        errorMessage.style.display = "block";
-        errorMessage.innerHTML = "Confirm Password cannot be empty.";
-        return false; 
+        confirmPasswordError.innerHTML = "Confirm Password cannot be empty.";
+        count++;
+ 
+    }
+    if (password != confirm_password) {
+        confirmPasswordError.innerHTML = "Passwords do not match.";
+        count++;
+
     }
 
+    if(count>0){
+        return false}
     return true;
 }

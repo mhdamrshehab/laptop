@@ -20,7 +20,7 @@ class User(db.Model):
     name = db.Column(db.String(255),nullable=False)
     phone = db.Column(db.String(15),nullable= False)
     is_admin = db.Column(db.Boolean, default=False)
-    image= db.Column(db.String(255),default=True)
+    image= db.Column(db.String(255))
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     products = db.relationship('Product', secondary=user_product, back_populates='users') # create relation with Product table.
 
@@ -33,13 +33,30 @@ class User(db.Model):
         self.password = password
         self.is_admin = isAdmin
         self.image = image
-    
+
     # function that check for credentails when user try to log in to the website
     def check_credentials(email, password):
         user = User.query.filter_by(email=email).first()
-        if user and user.password == password:
+        if user and check_password_hash(user.password, password):
             if user.is_admin:
                 return 0
             return 1
-        
         return -1
+    
+    
+    def pass_confirmed(password, confirm_password):
+        if password == confirm_password:
+            return True
+        return False
+    
+    def checkExistingUser(email,username):
+        email = User.query.filter_by(email=email).first()
+        username=User.query.filter_by(username=username).first()
+        if email or username:
+            return True
+        return False
+      
+    def getUserByEmail(email):
+        user = User.query.filter_by(email=email).first()
+        return user
+

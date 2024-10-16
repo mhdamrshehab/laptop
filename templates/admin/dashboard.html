@@ -1,0 +1,52 @@
+{% extends 'admin-base.html' %} {% block content %}
+
+<div class="container my-5">
+    <div class="row ">
+        <div class="shadow-lg p-3 rounded-5">
+            <div class="card-header text-success my-2 mb-3 text-center">
+                <h2 class="fw-bolder mb-5 pb-3">Products Details</h2>
+            </div>
+            <div class="card-body table-scroll ">
+                
+            <table class="table table-striped text-center">
+                <thead>
+                    <th scope="col">#</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Category</th>
+                    <th scope="col">Processor</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Brand</th>
+                    <th scope="col">Show</th>
+                    <th scope="col">Edit</th>
+                    <th scope="col">Delete</th>
+                </thead>
+                <tbody>
+                    {% for product in products %}
+                    <tr>
+                        <td>{{loop.index}}</td>
+                        <td>{{ product.title }}</td>
+                        <td>{{ product.category }}</td>
+                        <td>{{ product.quantity }}</td>
+                        <td>{{ product.price }}</td>
+                        <td>{{ product.brand }}</td>
+                        <td><a href="{{ url_for('main.show_product', id=product.id) }}" class="btn btn-secondary"><i class="fa-solid fa-info"></a></td>
+                        <td><a href="{{ url_for('main.edit_product', id=product.id) }}" class="btn btn-warning"><i class="fa-solid fa-edit"></i></a></td>
+                        <td><a href="{{ url_for('main.delete_product', id=product.id) }}" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a></td>
+                    </tr>
+                    {% endfor %}  
+                    
+                     
+                </tbody>
+            </table>
+        </div>
+        <div class="my-2">
+            <a href="{{ url_for('main.create_product') }}" class="shadow-sm m-auto fs-3 btn btn-success d-flex justify-content-center align-items-center" style="width: 75px; height: 75px; border-radius: 50%;">
+                <i class="fa-solid fa-plus"></i>
+              </a>    </div>
+        </div>
+
+    </div>
+</div>
+
+
+{% endblock %}
