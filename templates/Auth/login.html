@@ -1,48 +1,56 @@
 {% extends 'base.html' %} {% block content %}
-<div class="container">
-    <div class="row">
-            {% with messages = get_flashed_messages(with_categories=true) %}
-              {% if messages %}
-                <div class="alert-messages">
-                  {% for category, message in messages %}
-                    <div class="alert alert-{{category}}">{{ message }}</div>
-                  {% endfor %}
-                </div>
-              {% endif %}
-            {% endwith %}
-        </div>
-    <div class="row">
-        <div class="col-md-6">
-            <h2>Login</h2>
-            <form method="POST" action="{{ url_for('main.login') }}" id="login_from" onsubmit="return validateLoginForm()">
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" name="email" class="form-control" id="email" />
-                </div>
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" name="password" class="form-control" id="password" />
-                </div>
-                <button type="submit" class="btn btn-primary">Login</button>
-            </form>
-            <div id="error-message" class="alert alert-danger" style="display: none;"></div>
 
+
+<div>
+    <div class="form_parent">
+        <div>
+            <hgroup >
+                <h1 class="main_color fw-bolder">Welcome to our Store</h1>
+        
+            </hgroup>
+        </div>
+        <div>
+            <form method="POST" action="{{ url_for('main.login') }}" id="login_Register_page"
+            onsubmit="return validateLoginForm()" class="form_color">
+            <div class="group">
+                <input type="text" id="email" name="email" class="login_input"><span class="highlight"></span><span
+                    class="bar"></span>
+                <label for="email" class="login_label">Email</label>
+            </div>
+            <div class="group">
+                <input type="password" name="password" id="password" class="login_input" /> <span class="highlight"></span><span
+                class="bar"></span>
+                <label for="password" class="login_label">Password</label>
+    
+            </div>
+            <button type="submit" class="button buttonRed my-3">Login</button>
+            <div id="error-message" class="alert alert-danger" style="display: none;"></div>
+    
+        </form>
+    
+        </div>
+        <div>
+            <footer><a href="" target="_blank"><img src="{{url_for('static', filename="images/logo.png")}}"></a>
+                <p>You Gotta Love <a href="/" class="main_color" target="_blank">Laptop Store</a></p>
+            </footer>
         </div>
     </div>
-    {% if session.get('isAdmin')==0 %}
-    <script>
+</div>
+{% if session.get('isAdmin')==0 %}
+<script>
     const userEmail = localStorage.getItem('email');
     if (userEmail) {
         window.location.href = "/";
-}
-    </script>
-    {% else %}
-    <script>
+    }
+</script>
+{% elif session.get('isAdmin')==1 %}
+<script>
     const adminEmail = localStorage.getItem('email');
     if (adminEmail) {
         window.location.href = "/dashbaord";
-}
-    </script>
-    {% endif %} 
+    }   
+</script>
+
+{% endif %}
 </div>
 {% endblock %}

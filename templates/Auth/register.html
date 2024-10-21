@@ -1,68 +1,68 @@
 {% extends 'base.html' %} {% block content %}
 <div class="container">
-    <div class="row">
-        <div class="col-md-6">
-            <div class="container">
-                {% with messages = get_flashed_messages(with_categories=true) %}
-                  {% if messages %}
-                    <div class="alert-messages">
-                      {% for category, message in messages %}
-                        <div class="alert alert-{{category}}">{{ message }}</div>
-                      {% endfor %}
-                    </div>
-                  {% endif %}
-                {% endwith %}
-              </div>
-            <h2>Register</h2>
-            <form method="POST" action="{{ url_for('main.register') }}" id="register_form" onsubmit="return validateRegisterForm()">
-                <div class="form-group mt-3">
-                    <label for="name">Name</label>
-                    <input type="text" name="name" class="form-control fs-4" id="name" />
-                    <div id="name-error" class="text-danger"></div>
-                </div>
-                
-                <div class="form-group mt-3">
-                    <label for="phone">Phone Number</label>
-                    <input type="text" name="phone" class="form-control fs-4" id="phone" />
-                    <div id="phone-error" class="text-danger"></div>
-                </div>
-                
-                <div class="form-group mt-3">
-                    <label for="username">Username</label>
-                    <input type="text" name="username" class="form-control fs-4" id="username" />
-                    <div id="username-error" class="text-danger"></div>
-                </div>
-                
-                <div class="form-group mt-3">
-                    <label for="email">Email</label>
-                    <input type="text" name="email" class="form-control fs-4" id="email" />
-                    <div id="email-error" class="text-danger"></div>
-                </div>
-                
-                <div class="form-group mt-3">
-                    <label for="password">Password</label>
-                    <input type="password" name="password" class="form-control fs-4" id="password" />
-                    <div id="password-error" class="text-danger"></div>
-                </div>
-                
-                <div class="form-group mt-3">
-                    <label for="confirm_password">Confirm Password</label>
-                    <input type="password" name="confirm_password" class="form-control fs-4" id="confirm_password" />
-                    <div id="confirm_password-error" class="text-danger"></div>
-                </div>
-                
-                <div class="form-group mt-3">
-                    <label for="image">Profile Picture</label>
-                    <input type="file" name="image" class="form-control" id="image" />
-                </div>
-                
-                <button type="submit" class="btn btn-primary">Register</button>
-            </form>
-            
-
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="alert-messages">
+          {% for category, message in messages %}
+            <div class="alert alert-{{ category }}">{{ message }}</div>
+          {% endfor %}
         </div>
-    </div>
-</div>
+      {% endif %}
+    {% endwith %}
+  </div>
+            
+            <div class="login_Register_page">
+                <hgroup>
+                    <h1 class="main_color fw-bolder">Register to be one of our family</h1>
+        
+                  </hgroup>
+            <form method="POST" action="{{ url_for('main.register') }}" id="login_Register_page" enctype="multipart/form-data" onsubmit="return validateRegisterForm()">
+                <div class="group">
+                    <input type="text" id="name" name="name" class="login_input"><span class="highlight"></span><span class="bar"></span>
+                    <label for="name" class="login_label">Name</label>
+                    <div id="name-error" class="text-danger"></div>
+
+                  </div>
+                  <div class="group">
+                    <input type="text" id="phone" name="phone" class="login_input"><span class="highlight"></span><span class="bar"></span>
+                    <label for="phone" class="login_label">Phone Number</label>
+                    <div id="phone-error" class="text-danger"></div>
+                  </div>
+                  <div class="group">
+                    <input type="text" id="username" name="username" class="login_input"><span class="highlight"></span><span class="bar"></span>
+                    <label for="username" class="login_label">Username</label>
+                    <div id="username-error" class="text-danger"></div>
+                  </div>
+                <div class="group">
+                      <input type="text" id="email" name="email" class="login_input"><span class="highlight"></span><span class="bar"></span>
+                      <label for="email" class="login_label">Email</label>
+                      <div id="email-error" class="text-danger"></div>
+
+                    </div>
+                    <div class="group">
+                      <input  type="password" name="password" id="password" class="login_input ><span class="highlight"></span><span class="bar"></span>
+                      <label for="password" class="login_label">Passowrd</label>
+                      <div id="password-error" class="text-danger"></div>
+                    </div>
+                    <div class="group">
+                        <input  type="password" name="confirm_password" id="confirm_password" class="login_input ><span class="highlight"></span><span class="bar"></span>
+                        <label for="confirm_password" class="login_label">Confirm Passowrd</label>
+                        <div id="confirm_password-error" class="text-danger"></div>
+                      </div>
+                      <div class="form-group mt-3">
+                        <label for="image" style="color: #999;">Profile Picture</label>
+                        <input type="file" name="image" class="form-control" id="image" />
+                    </div>
+                    <button type="submit" class="button buttonRed my-3">Register</button>
+                    <div id="error-message" class="alert alert-danger" style="display: none;"></div>
+    
+                  </form>
+    
+                  <footer><a href="" target="_blank"><img src="{{url_for('static', filename="images/logo.png")}}"></a>
+                    <p>You Gotta Love <a href="/" class="main_color" target="_blank">Laptop Store</a></p>
+                  </footer>
+            </div>
+
 <script>
     const storedEmail = localStorage.getItem('email');
     if (storedEmail) {

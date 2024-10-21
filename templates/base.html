@@ -4,53 +4,120 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Laptop Store</title>
+    <link rel="icon" href="{{url_for('static', filename='images/logo.png')}}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}" />
-    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}"/>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href='https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css' rel='stylesheet'>
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.css' rel='stylesheet'>
+        <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}"/>
+
   </head>
   <body>
-    <header class="p-3 text-bg-light">
+    <header class="p-3 nav_bg_color">
       <div class="container">
-        <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-          <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
-            <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"/></svg>
-          </a>
-  
-          <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-            <li><a href="#" class="nav-link px-2 text-secondary">Home</a></li>
-            <li><a href="#" class="nav-link px-2 text-dark">Features</a></li>
-            <li><a href="#" class="nav-link px-2 text-dark">Pricing</a></li>
-            <li><a href="#" class="nav-link px-2 text-dark">FAQs</a></li>
-            <li><a href="#" class="nav-link px-2 text-dark">About</a></li>
+        <div class="d-flex align-items-md-center justify-content-between justify-content-lg-between">
+          <div class="logo_style">
+            <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
+              <img class="w-100" src="{{url_for('static', filename='images/logo.png')}}" alt="">
+            </a>
+
+          </div>
+          <div>
+            
+          <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0 ">
+            <li><a href="/" class="fs-5 nav-link px-2 text_color">Home</a></li>
+            <li><a href="/about" class="fs-5 nav-link px-2 text_color">About us</a></li>
+            <li><a href="/products" class="fs-5 nav-link px-2 text_color">Products</a></li>
+            <li><a href="/contact" class="fs-5 nav-link px-2 text_color">Contact Us</a></li>
           </ul>
-<!--   
-          <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
-            <input type="search" class="form-control form-control-dark text-bg-light" placeholder="Search..." aria-label="Search">
-          </form>
-   -->
-          <div class="text-end">
+          </div>
+
+          <div class="text-end d-flex justify-content-center align-items-center">
+            <button class="btn btn-secondary mx-2" onclick="document.querySelector('body').classList.toggle('dark')"> <i class="fa-solid fa-circle-half-stroke"></i></button>
+
             {% if session.get('email') %}
-            <form action="/logout" onsubmit="logout()">
-              <button type="submit" class="btn btn-danger">Logout</button>
-            </form>
+            <div>
+              <a href="/profile" class="btn btn-outline-danger mx-2 circle"><i class="fa-solid fa-user"></i></a>
+            </div>
+            <div>
+              <form action="/logout" onsubmit="logout()">
+                <button type="submit" class="btn btn-danger">Logout</button>
+              </form>
+            </div>
+
             {% else %}
-            <a href="/login" class="btn btn-outline-dark me-2">Login</a>
-            <a href="/register" class="btn btn-warning">Register</a>
+            <a href="/login" class="btn btn-outline-danger me-2">Login</a>
+            <a href="/register" class="btn btn-danger">Register</a>
             {% endif %}
+            
           </div>
         </div>
       </div>
     </header>
-    <div >{% block content %} {% endblock %}</div>
+    
+    <div class="container pt-3">
+      <div class="row justify-content-center">
+        <div class="col-md-6 text-center">
+          {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+              <div class="alert-messages">
+                  {% for category, message in messages %}
+                      {% if category == 'error' %}
+                          <div id="alert-category-error" class="alert alert-danger alert-dismissible fade show" role="alert">
+                              {{ message }}
+                          </div>
+                      {% else %}
+                          <div id="alert-{{ loop.index }}" class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                              {{ message }}
+                          </div>
+                      {% endif %}
+                  {% endfor %}
+              </div>
+          {% endif %}
+          {% endwith %}
+      </div>
+      
+      </div>
+    </div>
+
+    <div>
+      {% block content %} {% endblock %}
+    </div>
+<!-- 
+    <script>
+          const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+
+      if (mediaQuery.matches) {
+        setIsDarkMode(mediaQuery.matches);
+      }
+
+      const handleChange = (e) => {
+        if (e.matches) {
+          toggleThemeMode();
+        }
+      };
+
+      mediaQuery.addEventListener("change", handleChange);
+          </script> -->
+
+
+
     {% if session.get('email') %}
 
     <script>
         localStorage.setItem('email', "{{ session['email'] }}");
     </script>
             {% endif %}
-
+    <script type='text/javascript' src='https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js'></script>
+    <script type='text/javascript' src='https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js'></script>
     <script src="{{url_for('static',filename='js/bootstrap.bundle.min.js')}}"></script>
     <script src="{{url_for('static',filename='js/validation.js')}}"></script>
     <script src="{{url_for('static',filename='js/main.js')}}"></script>
+
+
   </body>
 </html>

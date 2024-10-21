@@ -1,0 +1,97 @@
+{%extends 'base.html'%}
+{%block content%}
+<section class="bg_color">
+    <div class="container py-5">
+        <form method="POST" action="{{ url_for('main.updateProfile',id=user.id) }}" id="edit_profile_page" enctype="multipart/form-data" onsubmit="return validateEditProfileForm
+        
+        ()">
+            <div class="row">
+            <div class="col-md-3">
+                <div class="image circle">
+                    {% if user.image %}
+                    <img class="w-100 img-thumbnail circle"  src="{{ url_for('static', filename='uploads/users/' + user.image) }}" alt="{{ user.name }}">
+                    {% else %}
+                    <img class="img-thumbnail image_style circle    " src="{{ url_for('static', filename='images/icon.png') }}"
+                        alt="{{ user.name }}">
+                    {% endif %}
+                </div>
+
+
+            </div>
+            <div class="col-md-9">
+                <div class="card border_less bg_color_secondary">
+                    <div class="card-header  mb-3">
+                        <h2 class=" text-center main_color fw-bolder">{{user.name}}</h2>
+                        </div>
+                    </div>
+                    <div class="card-header bg_color_secondary border_less rounded_perfet-bottom">
+                        <table class="table-style fs-5">
+                            <tr>
+                                <th>Name</th>
+                                <td> <input class="form-control" type="text" name="name" id="name" value="{{user.name}} ">
+                    <div id="name-error" class="text-danger"></div>
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Username</th>
+                                <td> <input class="form-control" type="text" name="username" id="username" value="{{user.username}} ">
+                                    <div id="username-error" class="text-danger"></div>
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Email</th>
+                                <td> <input class="form-control" type="text" name="email" id="email" value="{{user.email}} ">
+                                    <div id="email-error" class="text-danger"></div>
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Phone Number</th>
+                                <td> <input class="form-control" type="text" name="phone" id="phone" value="{{user.phone}} ">
+                                    <div id="phone-error" class="text-danger"></div>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th>New Password</th>
+                                <td> <input class="form-control" type="password" name="password" id="password">
+                                    <div id="password-error" class="text-danger"></div>
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Confirm Password</th>
+                                <td> <input class="form-control" type="password" name="confirm_password" id="confirm_password">
+                                    <div id="confirm_password-error" class="text-danger"></div>
+
+                                </td>
+                            </tr>
+               
+                            <tr>
+                                <th>New Image</th>
+                                <td>
+                                        <input type="file" name="image" class="form-control" id="image" />
+                                </td>
+                            </tr>
+                        </table>
+
+                    </div>                   
+                </div>
+            
+            </div>
+  
+        <div class="row">
+            <div class="col-md-12">
+                <div class="text-center mt-4">
+                        <button class="btn fs-3 btn-danger">Submit</button>
+                </div>
+            </div>
+        </div>
+        </form>
+    </div>
+</section>
+
+{%endblock%}

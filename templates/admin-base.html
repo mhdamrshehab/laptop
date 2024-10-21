@@ -4,41 +4,87 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Laptop Dashboard</title>
-    <link rel="icon" href="{{url_for('static', filename='images/icon.png')}}">
+    <link rel="icon" href="{{url_for('static', filename='images/logo.png')}}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}" />
     <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}"/>
     
   </head>
   <body>
-    <header class="p-3 text-bg-light border-bottom shadow-sm">
+    <header class="p-3 nav_bg_color border-bottom shadow-sm">
       <div class="container">
-        <div class="d-flex flex-wrap align-items-center justify-content-between">
-          <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
-            <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap">
-              <use xlink:href="#bootstrap"></use>
-            </svg>
-            <span class="fs-4 fw-bolder text-success">Laptop Store</span> 
+        <div class="d-flex align-items-center justify-content-between ">
+          <div class=" logo_style">
+                      <a href="/dashbaord" class="text-decoration-none">
+                <img class="w-100" src="{{url_for('static', filename='images/logo.png')}}" alt="">
+  
           </a>
+          </div>
     
-          <ul class="nav col-12 col-lg-auto mb-2 justify-content-center mb-md-0">
-            <li><a href="/dashbaord" class="fs-5 nav-link px-3 text-dark">Products</a></li>
-            <li><a href="#" class="fs-5 nav-link px-3 text-dark">Contact Forms</a></li>
-          </ul>
+          <div class=" d-flex justify-content-center align-items-center">
+             <a href="/dashbaord" class="fs-5 nav-link px-3 ">Products</a>
+             <a href="#" class="fs-5 nav-link px-3 ">Contact Forms</a>
+          </div>
     
-          <div class="text-end">
-            {% if session.get('email') %}
+          <div class="text-end d-flex justify-content-center align-items-center">
+            <button class="btn btn-secondary mx-2" onclick="document.querySelector('body').classList.toggle('dark')"> <i class="fa-solid fa-circle-half-stroke"></i></button>
+
             <form action="/logout" onsubmit="logout()">
               <button type="submit" class="btn btn-danger">Logout</button>
             </form>
-            {% endif %}
             </div>
+
         </div>
       </div>
     </header>
     
+    <div class="container pt-3">
+      <div class="row justify-content-center">
+        <div class="col-md-6 text-center">
+          {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+              <div class="alert-messages">
+                  {% for category, message in messages %}
+                      {% if category == 'error' %}
+                          <div class="alert alert-danger">{{ message }}</div>
+                      {% else %}
+                          <div class="alert alert-{{ category }}">{{ message }}</div>
+                      {% endif %}
+                  {% endfor %}
+              </div>
+          {% endif %}
+          {% endwith %}
+      </div>
+    
+      </div>
+    </div>
+
     <div>{% block content %} {% endblock %}</div>
 
+    <script>
+      // const getTheme = localStorage.getItem('theme');
+      // const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
 
+      // if (mediaQuery.matches || getTheme == 'dark') {
+      //   document.querySelector('body').classList.add('dark');
+      //   localStorage.setItem('theme',"dark");
+      // }
+      // const handleChange = (e) => {
+      //   if (e.matches) {
+      //     document.querySelector('body').classList.add('dark')
+      //     localStorage.setItem('theme',"dark");
+
+      //   }
+      //   else{
+      //     document.querySelector('body').classList.remove('dark')
+      //     localStorage.setItem('theme',"light");
+      //   }
+      // };
+      // mediaQuery.addEventListener("change", handleChange);
+
+    </script>
     {% if session.get('email') %}
 
     <script>

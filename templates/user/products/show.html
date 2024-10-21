@@ -1,8 +1,8 @@
-{% extends 'admin-base.html' %} {% block content %}
+{% extends 'base.html' %} {% block content %}
     <section class="bg_color">
         <div class="container py-5">
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-5">
                     <div class="image rounded_perfet">
                         {% if product.image %}
                         <img class="w-100 img-thumbnail rounded_perfet"  src="{{ url_for('static', filename='uploads/products/' + product.image) }}" alt="{{ product.title }}">
@@ -11,9 +11,14 @@
                             alt="{{ product.title }}">
                         {% endif %}
                     </div>
+                    <div class="text-center mt-4 ">
+                        <form action="{{url_for('main.buy',id=product.id)}}" method="POST">  
+                            <button class="btn fs-3 btn-danger">Buy Now</button>
+                        </form>
+                    </div>
     
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-7">
                     <div class="card border_less bg_color_secondary">
                         <div class="card-header my-2 mb-3">
                             <h2 class=" text-center main_color fw-bolder">{{product.title}}</h2>
@@ -38,7 +43,7 @@
                             </div>
                         </div>
                         <div class="card-header bg_color_secondary border_less rounded-5">
-                            <table class="table-style">
+                            <table class="table-style fs-5">
                                 <tr>
                                     <th>Brand</th>
                                     <td> {{product.brand}} </td>
@@ -61,18 +66,7 @@
                                 </tr>
                    
                             </table>
-                            <div class="text-center d-flex justify-content-center align-items-center">
-                                <div>
-                                    <a href="{{url_for('main.update_product', id=product.id)}}" class="mx-3 btn btn-warning"><i class="fs-3 fa-solid fa-edit"></i></a>
 
-                                </div>
-                                <div>
-                                    <form action="{{url_for('main.delete_product', id=product.id)}}" method="POST">
-                                
-                                        <button class="btn btn-danger"> <i class="fs-3 fa-solid fa-trash"></i></button>
-                                    </form>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 

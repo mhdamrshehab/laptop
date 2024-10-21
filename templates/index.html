@@ -3,24 +3,206 @@
 {% block content %}
 
 
-
-
-
-
-<div class="container">
-    {% with messages = get_flashed_messages(with_categories=true) %}
-      {% if messages %}
-        <div class="alert-messages">
-          {% for category, message in messages %}
-            <div class="alert alert-{{ category }}">{{ message }}</div>
-          {% endfor %}
+  <!-- Best Seller Section -->
+  <section class="pt-5 pb-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h2 class="mb-3 text-center fs-1 main_color">Best Seller</h2>
         </div>
-      {% endif %}
-    {% endwith %}
+        <div class="col-md-12">
+          <div id="carouselExampleIndicators1" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+              {% for product in best_sellers %}
+                {% if loop.index % 3 == 1 %} 
+                  <div class="carousel-item {% if loop.index == 1 %}active{% endif %}">
+                    <div class="row">
+                {% endif %}
+  
+                <div class="col-md-4 mb-3">
+                  <a href="" class="text-decoration-none">
+                    <div class="card rounded-5 bg_color_secondary">
+                      <img class="img-fluid rounded-5 cardImage" alt="{{ product.title }}" src="{{ url_for('static', filename='uploads/products/' + (product.image if product.image else 'def_image.png')) }}">
+                      <div class="card-body">
+                        <h4 class="card-title">{{ product.title }}</h4>
+                        <div class="mt-3 d-flex justify-content-between align-content-center">
+                          <h4><span class="main_color">Price: {{ product.price }}</span></h4>
+                          <h4>{{ product.brand }}</h4>
+                        </div>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+  
+                {% if loop.index % 3 == 0 or loop.index == loop.length %} 
+                    </div>
+                  </div>
+                {% endif %}
+              {% endfor %}
+            </div>
+  
+            <div class="text-center">
+              <a class="btn btn-outline-danger mb-3 mr-1" href="#carouselExampleIndicators1" role="button" data-slide="prev">
+                <i class="fa fa-arrow-left"></i>
+              </a>
+              <a class="btn btn-outline-danger mb-3" href="#carouselExampleIndicators1" role="button" data-slide="next">
+                <i class="fa fa-arrow-right"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+  
+        <div class="col-12 text-center">
+          <button class="btn btn-danger">Show More</button>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  
+
+<!-- Offers Section -->
+  <section class="pt-5 pb-5 bg_color_secondary">
+    <div class="container ">
+        <div class="row">
+            <div class="col-md-12">
+                <h2 class="mb-3 text-center fs-1 main_color">Offers</h2>
+            </div>
+
+
+            <div class="col-md-12">
+                <div id="carouselExampleIndicators2" class="carousel slide" data-ride="carousel">
+
+                    <div class="carousel-inner">
+                      {% for product in offers %}
+                      {% if loop.index % 3 == 1 %} 
+                      <div class="carousel-item {% if loop.index == 1 %}active{% endif %}">
+                        <div class="row">
+                              {% endif %}
+
+                              <div class="col-md-4 mb-3">
+                                <a href="" class="text-decoration-none">
+                                  <div class="card rounded-5 bg_color">
+                                    <img class="img-fluid rounded-5 cardImage" alt="{{ product.title }}" src="{{ url_for('static', filename='uploads/products/' + (product.image if product.image else 'def_image.png')) }}">
+                                    <div class="card-body">
+                                      <h4 class="card-title">{{ product.title }}</h4>
+                                      <div class="d-flex justify-content-between align-items-center">
+                                        <div class="mt-3 ">
+                                          <p class=""> <del >{{product.price}}</del> </p>
+                                          <h4><span class="main_color">OFFER: {{product.offer_price}}</span></h4>         
+                                        </div>
+                                        <div>
+                                          <h4>{{product.brand}}</h4>
+
+                                        </div>
+                                          
+                                      </div>
+                                    </div>
+                                  </div>
+                                </a>
+                              </div>
+                
+                              {% if loop.index % 3 == 0 or loop.index == loop.length %} 
+                            </div>
+                          
+                            </div>
+                            {%endif%}
+                            {%endfor%}
+                        </div>
+
+    
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 text-center">
+              <a class="btn btn-outline-danger mb-3 mr-1" href="#carouselExampleIndicators2" role="button" data-slide="prev">
+                  <i class="fa fa-arrow-left"></i>
+              </a>
+              <a class="btn btn-outline-danger mb-3 " href="#carouselExampleIndicators2" role="button" data-slide="next">
+                  <i class="fa fa-arrow-right"></i>
+              </a>
+          </div>
+          <div class="col-12 text-center">
+            <button class="btn btn-danger">
+                Show More
+            </button>
+          </div>
+        </div>
+    </div>
+</section>
+
+<!-- New Arrivals Section -->
+<section class="pt-5 pb-5 ">
+  <div class="container ">
+      <div class="row">
+          <div class="col-md-12">
+              <h2 class="mb-3 text-center fs-1 main_color">New Arrivals</h2>
+          </div>
+
+
+          <div class="col-md-12">
+              <div id="carouselExampleIndicators3" class="carousel slide" data-ride="carousel">
+
+                  <div class="carousel-inner">
+                    {% for product in newArrivals %}
+                    {% if loop.index % 3 == 1 %} 
+                    <div class="carousel-item {% if loop.index == 1 %}active{% endif %}">
+                      <div class="row">
+                        {% endif %}
+
+                        <div class="col-md-4 mb-3">
+                          <a href="" class="text-decoration-none">
+                            <div class="card rounded-5 bg_color_secondary">
+                              <img class="img-fluid rounded-5 cardImage" alt="{{ product.title }}" src="{{ url_for('static', filename='uploads/products/' + (product.image if product.image else 'def_image.png')) }}">
+                              <div class="card-body">
+                                <h4 class="card-title">{{ product.title }}</h4>
+                                <div class="mt-3 d-flex justify-content-between align-content-center">
+                                  <h4><span class="main_color">Price: {{ product.price }}</span></h4>
+                                  <h4>{{ product.brand }}</h4>
+                                </div>
+                              </div>
+                            </div>
+                          </a>
+                        </div>
+          
+                        {% if loop.index % 3 == 0 or loop.index == loop.length %} 
+
+
+                      </div>
+                  </div>
+                  {%endif%}
+                  {%endfor%}
+  
+                  </div>
+              </div>
+          </div>
+          <div class="col-12 text-center">
+            <a class="btn btn-outline-danger mb-3 mr-1" href="#carouselExampleIndicators3" role="button" data-slide="prev">
+                <i class="fa fa-arrow-left"></i>
+            </a>
+            <a class="btn btn-outline-danger mb-3 " href="#carouselExampleIndicators3" role="button" data-slide="next">
+                <i class="fa fa-arrow-right"></i>
+            </a>
+        </div>
+        <div class="col-12 text-center">
+          <button class="btn btn-danger">
+              Show More
+          </button>
+        </div>
+      </div>
   </div>
+</section>
 
-    <h1>Home Page </h1>
+
+{% if session.get('isAdmin')==1 %}
+<script>
+    const adminEmail = localStorage.getItem('email');
+    if (adminEmail) {
+        window.location.href = "/dashbaord";
+    }   
+</script>
+
+{% endif %}
 
 
-  </script>
 {% endblock %}

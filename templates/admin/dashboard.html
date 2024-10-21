@@ -1,14 +1,15 @@
 {% extends 'admin-base.html' %} {% block content %}
 
-<div class="container my-5">
-    <div class="row ">
+
+<div class="container my-5 table_parent ">
+    <div class="row">
         <div class="shadow-lg p-3 rounded-5">
-            <div class="card-header text-success my-2 mb-3 text-center">
+            <div class="card-header main_color my-2 mb-3 text-center">
                 <h2 class="fw-bolder mb-5 pb-3">Products Details</h2>
             </div>
-            <div class="card-body table-scroll ">
+            <div class=" table-scroll ">
                 
-            <table class="table table-striped text-center">
+            <table class=" table-style text-center">
                 <thead>
                     <th scope="col">#</th>
                     <th scope="col">Title</th>
@@ -30,17 +31,19 @@
                         <td>{{ product.price }}</td>
                         <td>{{ product.brand }}</td>
                         <td><a href="{{ url_for('main.show_product', id=product.id) }}" class="btn btn-secondary"><i class="fa-solid fa-info"></a></td>
-                        <td><a href="{{ url_for('main.edit_product', id=product.id) }}" class="btn btn-warning"><i class="fa-solid fa-edit"></i></a></td>
-                        <td><a href="{{ url_for('main.delete_product', id=product.id) }}" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a></td>
+                            <td><a href="{{url_for('main.update_product', id=product.id)}}" class="mx-3 btn btn-warning"><i class="fa-solid fa-edit"></i></a></td>
+                            <td><form action="{{url_for('main.delete_product', id=product.id)}}" method="POST">
+                                
+                            <button class="btn btn-danger"> <i class="fa-solid fa-trash"></i></button>
+                        </form></td>
                     </tr>
                     {% endfor %}  
                     
-                     
                 </tbody>
             </table>
         </div>
         <div class="my-2">
-            <a href="{{ url_for('main.create_product') }}" class="shadow-sm m-auto fs-3 btn btn-success d-flex justify-content-center align-items-center" style="width: 75px; height: 75px; border-radius: 50%;">
+            <a href="{{ url_for('main.create_product') }}" class="shadow-sm m-auto fs-3 btn btn-danger d-flex justify-content-center align-items-center" style="width: 75px; height: 75px; border-radius: 50%;">
                 <i class="fa-solid fa-plus"></i>
               </a>    </div>
         </div>

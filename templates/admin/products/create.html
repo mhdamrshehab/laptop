@@ -1,65 +1,90 @@
 {% extends 'admin-base.html' %} {% block content %}
     <div class="container my-5">
         <div class="row d-flex justify-content-center align-content-center">
-            <div class="col-md-6">
-                <div class="card w-100 m-auto shadow">
-                    <div class="card-header text-success">
+            <div class="col-md-12">
+                <div class="card w-100 m-auto shadow rounded_perfet">
+                    <div class="card-header bg_main_color text-white rounded_perfet-top border-0">
                         <h2 class="text-center">Create Product</h2>
                     </div>
-                    <div class="card-body">
-                        <form action="{{url_for('main.add_product')}}" method="POST" enctype="multipart/form-data">
-                            <div class="form-group mb-3">
-                                <label for="title">Title:</label>
-                                <input type="text" name="title" id="title" class="form-control" placeholder="Enter product title">
-                            </div>
+                    <div class="card-body bg_color ">
+                        <form action="{{url_for('main.add_product')}}" method="POST" enctype="multipart/form-data" onsubmit="return validatePrdouctForm()">
+
+                            <div class=" d-flex justify-content-center align-items-baseline">
+                                <div class="w-100 p-3">
+                                    <div class="form-group mb-3">
+                                        <label for="title">Title:</label>
+                                        <input type="text" name="title" id="title" class="form-control" placeholder="Enter product title">
+                                        <div id="title-error" class="text-danger"></div>
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <label for="category">Category:</label>
+                                        <select name="category" id="category" class="form-control">
+                                            <option value="">Select a category</option>
+                                            <option value="Laptop">Laptop</option>
+                                            <option value="PC">PC</option>
+                                            <option value="Monitor">Monitor</option>
+                                            <option value="Tablet">Tablet</option>
+                                            <option value="Phone">Phone</option>
+                                        </select>
+                                        <div id="category-error" class="text-danger"></div>
+                                    </div>
+                                    
+            
+                                    <div class="form-group mb-3">
+                                        <label for="model">Model:</label>
+                                        <input type="text" name="model" id="model" class="form-control" placeholder="Enter product model">
+                                        <div id="model-error" class="text-danger"></div>
+                                    </div>
+            
+                                    <div class="form-group mb-3">
+                                        <label for="brand">Brand:</label>
+                                        <input type="text" name="brand" id="brand" class="form-control" placeholder="Enter product brand">
+                                        <div id="brand-error" class="text-danger"></div>
+                                    </div>
+            
+                                    <div class="form-group mb-3">
+                                        <label for="color">Color:</label>
+                                        <input type="text" name="color" id="color" class="form-control" placeholder="Enter product color">
+                                        <div id="color-error" class="text-danger"></div>
+                                    </div>
+                        
+                                    <div class="form-group mb-3">
+                                        <label for="image">Image:</label>
+                                        <input type="file" name="image" id="image" class="form-control">
+                                        <div id="image-error" class="text-danger"></div>
+                                    </div>
+                                </div>
     
-                            <div class="form-group mb-3">
-                                <label for="category">Category:</label>
-                                <input type="text" name="category" id="category" class="form-control" placeholder="Enter product category">
-                            </div>
-    
-                            <div class="form-group mb-3">
-                                <label for="model">Model:</label>
-                                <input type="text" name="model" id="model" class="form-control" placeholder="Enter product model">
-                            </div>
-    
-                            <div class="form-group mb-3">
-                                <label for="brand">Brand:</label>
-                                <input type="text" name="brand" id="brand" class="form-control" placeholder="Enter product brand">
-                            </div>
-    
-                            <div class="form-group mb-3">
-                                <label for="color">Color:</label>
-                                <input type="text" name="color" id="color" class="form-control" placeholder="Enter product color">
-                            </div>
-    
-                            <div class="form-group mb-3">
-                                <label for="quantity">Quantity:</label>
-                                <input type="text" name="quantity" id="quantity" class="form-control" placeholder="Enter available quantity">
-                            </div>
-    
-                            <div class="form-group mb-3">
-                                <label for="price">Price:</label>
-                                <input type="text" name="price" id="price" class="form-control" placeholder="Enter product price">
-                            </div>
-    
-                            <div class="form-group mb-3">
-                                <label for="offerprice">Offer Price:</label>
-                                <input type="text" name="offerprice" id="offerprice" class="form-control" placeholder="Enter discounted price (if any)">
-                            </div>
-    
-                            <div class="form-group mb-3">
-                                <label for="description">Description:</label>
-                                <textarea name="description" id="description" class="form-control" rows="3" placeholder="Enter product description"></textarea>
-                            </div>
-    
-                            <div class="form-group mb-3">
-                                <label for="image">Image:</label>
-                                <input type="file" name="image" id="image" class="form-control">
+                                <div class="w-100 p-3">
+                                    <div class="form-group mb-3">
+                                        <label for="quantity">Quantity:</label>
+                                        <input type="text" name="quantity" id="quantity" class="form-control" placeholder="Enter available quantity">
+                                        <div id="quantity-error" class="text-danger"></div>
+                                    </div>
+            
+                                    <div class="form-group mb-3">
+                                        <label for="price">Price:</label>
+                                        <input type="text" name="price" id="price" class="form-control" placeholder="Enter product price">
+                                        <div id="price-error" class="text-danger"></div>
+                                    </div>
+            
+                                    <div class="form-group mb-3">
+                                        <label for="offer_price">Offer Price:</label>
+                                        <input type="text" name="offer_price" id="offer_price" class="form-control" placeholder="Enter discounted price (if any)">
+                                        <div id="offer_price-error" class="text-danger"></div>
+                                    </div>
+            
+                                    <div class="form-group mb-3">
+                                        <label for="description">Description:</label>
+                                        <textarea name="description" id="description" class="form-control" rows="7" placeholder="Enter product description"></textarea>
+                                        <div id="description-error" class="text-danger"></div>
+                                    </div>
+
+                                </div>
                             </div>
     
                             <div class="form-group my-3 text-center">
-                                <button type="submit" class="btn btn-success btn-lg">Create Product</button>
+                                <button type="submit" class="btn btn-danger btn-lg">Create Product</button>
                             </div>
                         </form>
                     </div>

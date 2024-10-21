@@ -2,12 +2,10 @@ from app import db
 from datetime import datetime
 from werkzeug.security import check_password_hash
 
-
-# Intilaize the table that contain the relation between the users and product tabel
 user_product = db.Table('user_product',
-    db.Column('user_id', db.Integer, db.ForeignKey('user.id'), primary_key=True),
-    db.Column('product_id', db.Integer, db.ForeignKey('product.id'), primary_key=True),
-    db.Column('purchase_date', db.DateTime, default=db.func.current_timestamp())
+    db.Column('user_id', db.Integer, db.ForeignKey('user.id'), nullable=False),
+    db.Column('product_id', db.Integer, db.ForeignKey('product.id'), nullable=False),
+    db.Column('purchase_date', db.DateTime, default=db.func.current_timestamp()),
 )
 
 class User(db.Model):
@@ -55,8 +53,20 @@ class User(db.Model):
         if email or username:
             return True
         return False
-      
+    def checkEditProfile(id,email,username):
+        user=User.getUserById(id)
+        if user.email == email and user.username == username:
+            email = User.query.filter_by(email=email).first()
+            username=User.query.filter_by(username=username).first()
+            if email or username:
+                return True
+            return False
+        return False
     def getUserByEmail(email):
         user = User.query.filter_by(email=email).first()
+        return user
+    
+    def getUserById(id):
+        user = User.query.filter_by(id=id).first()
         return user
 

@@ -1,0 +1,62 @@
+{% extends 'base.html' %} {% block content %}
+    <section class="bg_color">
+        <div class="container py-5">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="image circle">
+                        {% if user.image %}
+                        <img class="w-100 img-thumbnail circle"  src="{{ url_for('static', filename='uploads/users/' + user.image) }}" alt="{{ user.name }}">
+                        {% else %}
+                        <img class="img-thumbnail image_style circle    " src="{{ url_for('static', filename='images/icon.png') }}"
+                            alt="{{ user.name }}">
+                        {% endif %}
+                    </div>
+
+    
+                </div>
+                <div class="col-md-9">
+                    <div class="card border_less bg_color_secondary">
+                        <div class="card-header  mb-3">
+                            <h2 class=" text-center main_color fw-bolder">{{user.name}}</h2>
+                            </div>
+                        </div>
+                        <div class="card-header bg_color_secondary border_less rounded_perfet-bottom">
+                            <table class="table-style fs-5">
+                                <tr>
+                                    <th>Name</th>
+                                    <td> {{user.name}} </td>
+                                </tr>
+                                <tr>
+                                    <th>Username</th>
+                                    <td> {{user.username}} </td>
+                                </tr>
+                                <tr>
+                                    <th>Email</th>
+                                    <td> {{user.email}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Phone Number</th>
+                                    <td> {{user.phone}} </td>
+                                </tr>
+
+
+                   
+                            </table>
+
+                        </div>                   
+                    </div>
+                
+                </div>
+      
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="text-center mt-4">
+                        <form action="{{url_for('main.editProfile',id=user.id)}}" method="POST">  
+                            <button class="btn fs-3 btn-danger">Edit Personal Information</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

@@ -1,0 +1,72 @@
+{% extends 'base.html'%} {% block content %}
+<div class="container my-5">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="">
+        <!-- <img
+          src="{{url_for('static', filename='images/about.png')}}"
+          class="w-100 rounded-5"
+          alt="About us image"
+        /> -->
+        <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script> 
+
+    <dotlottie-player class="w-100" src="https://lottie.host/fed7d1bb-04d3-4f51-9159-ebdf4a74411e/dInhAxXgwd.json" background="transparent" speed="1" loop autoplay></dotlottie-player>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card border_less rounded-5 ">
+        <div class="card-header text-center bg_color_secondary rounded_perfet-top">
+          <h2 class="main_color">Laptop One:</h2>
+          <h3 class="text_color fw-bold">
+            Your One-Stop Shop for Tech Essentials
+          </h3>
+        </div>
+        <div class="card-body bg_color rounded_perfet-bottom">
+          <p class="fs-5">
+            <span class="main_color"> Laptop One </span> is your trusted
+            destination for a wide range of cutting-edge technology products.
+            Whether you're a student, professional, or simply someone who loves
+            staying connected, we have everything you need.
+          </p>
+          <p class="fs-5 text-center">
+            <span class="main_color fs-4 fw-bold ">Our Product Range: </span>
+          </p>
+          <ul style="font-size: 1.25rem;">
+            <li>
+              <span class="fs-5 main_color"> Laptops: </span> From sleek and
+              portable models to powerful workstations, we offer a diverse
+              selection of laptops to suit your needs and budget.
+            </li>
+            <li>
+              <span class="fs-5 main_color"> PCs: </span> Discover
+              high-performance desktop computers designed for gaming, content
+              creation, or everyday tasks.
+            </li>
+            <li>
+              <span class="fs-5 main_color"> Monitors: </span> Experience
+              stunning visuals with our range of high-quality monitors,
+              including gaming monitors, ultrawide displays, and more.
+            </li>
+            <li>
+              <span class="fs-5 main_color"> Mobile Devices: </span> Stay
+              connected on the go with our selection of smartphones and tablets,
+              featuring the latest technology and features.
+            </li>
+            <li>
+              <span class="fs-5 main_color"> And More: </span> We also carry a
+              variety of other tech accessories and peripherals to enhance your
+              digital experience.
+            </li>
+          </ul>
+          <div class="text-center">
+            <a href="/products" class="btn btn-danger fs-5"> Show Products Now! </a>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+{% endblock %}
