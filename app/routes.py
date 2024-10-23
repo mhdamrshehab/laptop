@@ -495,7 +495,6 @@ def submit_contact ():
         name = request.form.get('name')
         email = request.form.get('email')
         message = request.form.get('message')
-        print(name,email,message)
         data= {
             'name': name,
             'email':email,
