@@ -188,7 +188,7 @@ hgroup {
   padding: 10px 10px 10px 5px;
   display: block;
   background: var(--bg-color-secondary);
-  color: #636363;
+  color: var(--text-color);
   width: 100%;
   border: none;
   border-radius: 0;
@@ -271,39 +271,6 @@ input.used ~ label {
     background: transparent;
   }
 }
-
-.button {
-  position: relative;
-  display: inline-block;
-  padding: 12px 24px;
-  margin: 0.3em 0 1em 0;
-  width: 100%;
-  vertical-align: middle;
-  color: #fff;
-  font-size: 16px;
-  line-height: 20px;
-  -webkit-font-smoothing: antialiased;
-  text-align: center;
-  letter-spacing: 1px;
-  background: transparent;
-  border: 0;
-  cursor: pointer;
-  transition: all 0.15s ease;
-}
-.button:focus {
-  outline: 0;
-}
-
-.buttonRed {
-  background: var(--main-color);
-
-  transition: all, 0.5s;
-}
-
-.buttonRed:hover {
-  background: #be1b21;
-}
-
 footer {
   text-align: center;
 }
@@ -340,37 +307,4 @@ footer a:focus {
 }
 .cardImage {
   width: 100%;
-}
-/* //////////scrollbar/////////// */
-
-::-webkit-scrollbar {
-  width: 10px;
-}
-::-webkit-scrollbar-thumb {
-  background-color: var(--main-color);
-  border-radius: 10px;
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
-  -ms-border-radius: 10px;
-  -o-border-radius: 10px;
-  transition: all 0.5s ease-in-out;
-  -webkit-transition: all 0.5s ease-in-out;
-  -moz-transition: all 0.5s ease-in-out;
-  -ms-transition: all 0.5s ease-in-out;
-  -o-transition: all 0.5s ease-in-out;
-}
-::-webkit-scrollbar-thumb:hover {
-  background-color: var(--main-hover-color);
-}
-::-webkit-scrollbar-thumb:active {
-  background-color: var(--main-hover-color);
-}
-::-webkit-scrollbar-track {
-  background-color: var(--bg-color);
-  border-radius: 10px;
-  margin: -10px 0px;
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
-  -ms-border-radius: 10px;
-  -o-border-radius: 10px;
 }
