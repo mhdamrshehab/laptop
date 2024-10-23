@@ -321,7 +321,7 @@ def delete_product(id):
         flash('Please login first.', 'error')
         return redirect(url_for('main.login'))
    
-# --------------------------------- user routes -----------------------------------
+# --------------------------------- User routes -----------------------------------
 
 # Route to render the About page
 @main.route('/about')
