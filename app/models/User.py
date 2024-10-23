@@ -1,5 +1,4 @@
 from app import db
-from datetime import datetime
 from werkzeug.security import check_password_hash
 
 # Initilaztion of the user_product with relation between the product table and user table by thier ids
