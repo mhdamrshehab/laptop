@@ -1,142 +1,118 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Laptop Store</title>
-    <link rel="icon" href="{{url_for('static', filename='images/logo.png')}}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}" />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link href='https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css' rel='stylesheet'>
-    <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.css' rel='stylesheet'>
-        <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}"/>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Laptop Store</title>
+  <link rel="icon" href="{{url_for('static', filename='images/logo.png')}}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}" />
 
-  </head>
-  <body class="pt-5">
-    <header class="p-3 nav_bg_color nav_fixed shadow">
-      <div class="container">
-        <div class="d-flex align-items-md-center justify-content-between justify-content-lg-between">
-          <div class="logo_style">
-            <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
-              <img class="w-100" src="{{url_for('static', filename='images/logo.png')}}" alt="">
-            </a>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Rajdhani:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
+  <link href='https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css' rel='stylesheet'>
+  <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.css' rel='stylesheet'>
+  <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}" />
 
-          </div>
-          <div>
-            
+</head>
+
+<body class="pt-5">
+  <!-- Navbar -->
+  <header class="p-3 nav_bg_color nav_fixed shadow">
+    <div class="container">
+      <div class="d-flex align-items-md-center justify-content-between justify-content-lg-between">
+        <div class="logo_style">
+          <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
+            <img class="w-100" src="{{url_for('static', filename='images/logo.png')}}" alt="">
+          </a>
+
+        </div>
+        <div>
+
           <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0 ">
             <li><a href="/" class="fs-5 nav-link px-2 text_color">Home</a></li>
             <li><a href="/about" class="fs-5 nav-link px-2 text_color">About us</a></li>
             <li><a href="/products" class="fs-5 nav-link px-2 text_color">Products</a></li>
             <li><a href="/contact" class="fs-5 nav-link px-2 text_color">Contact Us</a></li>
           </ul>
+        </div>
+
+        <div class="text-end d-flex justify-content-center align-items-center">
+          <button id="theme" class="btn btn-secondary theme mx-2"> <i class="fa-solid fa-circle-half-stroke"></i></button>
+
+          {% if session.get('email') %}
+          <div>
+            <a href="/profile" class="btn btn-outline-danger mx-2 circle"><i class="fa-solid fa-user"></i></a>
+          </div>
+          <div>
+            <form action="/logout" onsubmit="logout()">
+              <button type="submit" class="btn btn-danger">Logout</button>
+            </form>
           </div>
 
-          <div class="text-end d-flex justify-content-center align-items-center">
-            <button class="btn btn-secondary theme mx-2"> <i class="fa-solid fa-circle-half-stroke"></i></button>
+          {% else %}
+          <a href="/login" class="btn btn-outline-danger me-2">Login</a>
+          <a href="/register" class="btn btn-danger">Register</a>
+          {% endif %}
 
-            {% if session.get('email') %}
-            <div>
-              <a href="/profile" class="btn btn-outline-danger mx-2 circle"><i class="fa-solid fa-user"></i></a>
-            </div>
-            <div>
-              <form action="/logout" onsubmit="logout()">
-                <button type="submit" class="btn btn-danger">Logout</button>
-              </form>
-            </div>
-
-            {% else %}
-            <a href="/login" class="btn btn-outline-danger me-2">Login</a>
-            <a href="/register" class="btn btn-danger">Register</a>
-            {% endif %}
-            
-          </div>
         </div>
       </div>
-    </header>
-    
-    <div class="container pt-5">
-      <div class="row justify-content-center pt-5">
-        <div class="col-md-6 text-center">
-          {% with messages = get_flashed_messages(with_categories=true) %}
-          {% if messages %}
-              <div class="alert-messages">
-                  {% for category, message in messages %}
-                      {% if category == 'error' %}
-                          <div id="alert-category-error" class="alert alert-danger alert-dismissible fade show" role="alert">
-                              {{ message }}
-                          </div>
-                      {% else %}
-                          <div id="alert-{{ loop.index }}" class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
-                              {{ message }}
-                          </div>
-                      {% endif %}
-                  {% endfor %}
-              </div>
+    </div>
+  </header>
+
+  <!-- container to display the alerts -->
+  <div class="container pt-5">
+    <div class="row justify-content-center pt-5">
+      <div class="col-md-6 text-center">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <div class="alert-messages">
+          {% for category, message in messages %}
+          {% if category == 'error' %}
+          <div id="alert-category-error" class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{ message }}
+          </div>
+          {% else %}
+          <div id="alert-{{ loop.index }}" class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+            {{ message }}
+          </div>
           {% endif %}
-          {% endwith %}
+          {% endfor %}
+        </div>
+        {% endif %}
+        {% endwith %}
       </div>
-      
-      </div>
+
     </div>
+  </div>
 
-    <div>
-      {% block content %} {% endblock %}
-    </div>
-
-    <script>
-      
-      function applyTheme(theme) {
-      if (theme === 'dark') {
-      document.body.classList.add('dark');
-      } else {
-      document.body.classList.remove('dark');
-      }
-      }
-
-      function saveTheme(theme) {
-      localStorage.setItem('theme', theme);
-      }
-
-      const savedTheme = localStorage.getItem('theme');
-
-      if (savedTheme) {
-      applyTheme(savedTheme);
-      } else {
-      const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      applyTheme(systemPrefersDark ? 'dark' : 'light');
-      }
-
-      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
-      const newTheme = event.matches ? 'dark' : 'light';
-      applyTheme(newTheme);
-      saveTheme(newTheme);
-      });
-
-      document.querySelector('.theme').addEventListener('click', function() {
-      const currentTheme = document.body.classList.contains('dark') ? 'dark' : 'light';
-      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-      applyTheme(newTheme);
-      saveTheme(newTheme);
-      });
-    </script>
-    
-    {% if session.get('email') %}
-
-    <script>
-        localStorage.setItem('email', "{{ session['email'] }}");
-    </script>
-            {% endif %}
-    <script type='text/javascript' src='https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js'></script>
-    <script type='text/javascript' src='https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js'></script>
-    <script src="{{url_for('static',filename='js/bootstrap.bundle.min.js')}}"></script>
-    <script src="{{url_for('static',filename='js/validation.js')}}"></script>
-    <script src="{{url_for('static',filename='js/main.js')}}"></script>
+  <!-- Block content that will be extended -->
+  <div>
+    {% block content %} {% endblock %}
+  </div>
 
 
-  </body>
+  {% if session.get('email') %}
+
+  <script>
+    localStorage.setItem('email', "{{ session['email'] }}");
+  </script>
+  {% endif %}
+  <script type='text/javascript' src='https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js'></script>
+  <script type='text/javascript'
+    src='https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js'></script>
+  <script src="{{url_for('static',filename='js/bootstrap.bundle.min.js')}}"></script>
+  <script src="{{url_for('static',filename='js/validation.js')}}"></script>
+  <script src="{{url_for('static',filename='js/main.js')}}"></script>
+
+
+</body>
+
 </html>

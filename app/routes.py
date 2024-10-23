@@ -10,6 +10,7 @@ import json
 
 main = Blueprint('main', __name__)
 
+# Home page route, displays best sellers, offers, and new arrivals, and checks if the user is logged in
 @main.route('/')
 def index():
     best_sellers = Product.getBestSellers()
@@ -20,7 +21,7 @@ def index():
         return render_template('index.html', user=user, best_sellers=best_sellers , offers=offers, newArrivals= newArrivals)
     return render_template('index.html', best_sellers=best_sellers , offers=offers, newArrivals= newArrivals)
 
-# Auth methods
+# Function to check if the user is logged in and return their role (user, admin, or not logged in)
 def checkIfLoggedin():
     email=session.get('email')
     isAdmin = session.get('isAdmin')
@@ -31,16 +32,18 @@ def checkIfLoggedin():
     else:
         return "none"
 
+# Route to render the login page
 @main.route('/login',methods=['Get','POST'])
 def create():
    return render_template('Auth/login.html')
 
+# Route to handle login form submission and authentication
 @main.route('/auth',methods=['GET','POST'])
 def login():
    if request.method == 'POST':
       email = request.form['email']
       password = request.form['password']
-      
+    # Check user credentials
       if (User.check_credentials(email, password)==1):
          session.permanent = True 
          session['email']= email
@@ -57,6 +60,7 @@ def login():
           return redirect(url_for('main.create'))
    return redirect(url_for('main.create'))
       
+# Route to handle user logout by clearing the session
 @main.route('/logout', methods=['GET','POST'])
 def logout():
     session.pop('email', None)
@@ -64,6 +68,7 @@ def logout():
     flash('You logged out successfully', 'success')
     return redirect(url_for('main.login'))     
 
+# Route to handle user registration, including form submission and image upload
 @main.route('/register',methods=['GET','POST'])
 def register():
     if request.method == 'POST':
@@ -77,7 +82,7 @@ def register():
             flash('Email or username already exists', 'error')
             return redirect(url_for('main.register'))            
         
-        hashed_password = generate_password_hash(password)
+        hashed_password = generate_password_hash(password) 
         new_user = User(
             name=name,
             email=email,
@@ -113,6 +118,7 @@ def register():
     
     return render_template('Auth/register.html')
 
+# Route to render the admin dashboard; only accessible by admin users
 @main.route('/dashbaord', methods=['GET', 'POST'])
 def dashboard():
     if (checkIfLoggedin()== 'admin'):
@@ -126,9 +132,9 @@ def dashboard():
         flash('Please login first.', 'error')
         return redirect(url_for('main.login'))
     
-# -----------------------------------------------------------------------------
+# -----------------------  Product CRUD methods  ---------------------------------------------
 
-# Product methods CRUD
+# Route to display the details of a specific product; accessible only by admin users
 @main.route('/admin/product/<int:id>', methods=['GET'])
 def show_product(id):
     if (checkIfLoggedin()== 'admin'):
@@ -140,6 +146,8 @@ def show_product(id):
     else:
         flash('Please login first.', 'error')
         return redirect(url_for('main.login'))
+    
+# Route to render the product creation form; accessible only by admin users
 @main.route('/product/create')
 def create_product():
     if (checkIfLoggedin()== 'admin'):
@@ -151,7 +159,7 @@ def create_product():
         flash('Please login first.', 'error')
         return redirect(url_for('main.login'))
 
-
+# Route to add a new product; accessible only by admin users
 @main.route('/product/add', methods=['GET', 'POST'])
 def add_product():
     if (checkIfLoggedin()== 'admin'):
@@ -212,6 +220,7 @@ def add_product():
         flash('Please login first.', 'error')
         return redirect(url_for('main.login'))
 
+# Route to update an existing product; accessible only by admin users
 @main.route('/product/<int:id>/update', methods=['GET', 'POST'])
 def update_product(id):
     if (checkIfLoggedin()== 'admin'):
@@ -278,6 +287,7 @@ def edit_product(id):
         flash('Please login first.', 'error')
         return redirect(url_for('main.login'))
 
+# Route to edit an existing product; accessible only by admin users
 @main.route('/product/<int:id>/delete', methods=['POST'])
 def delete_product(id):
     if (checkIfLoggedin()== 'admin'):
@@ -311,18 +321,21 @@ def delete_product(id):
         flash('Please login first.', 'error')
         return redirect(url_for('main.login'))
    
-# --------------------------------- user routes
+# --------------------------------- user routes -----------------------------------
+
+# Route to render the About page
 @main.route('/about')
 def about():
     return render_template('user/about.html')
 
+# Route to display a paginated list of products
 @main.route('/products')
 def showProducts():
-    
     page = request.args.get('page', 1, type=int)
     pagination= Product.pagination(page)
     return render_template('user/products/index.html', products=pagination.items, pagination=pagination)
 
+# Route to handle product search and display paginated results
 @main.route('/search',methods=['GET'])
 def search():
     search_input = request.args.get('search')
@@ -335,7 +348,8 @@ def search():
     else:
         flash('No Results Founds', 'error')
         return render_template('user/products/index.html' ,pagination=pagination )
-    
+
+# Route to display a specific product by its ID    
 @main.route('/product/<int:id>')
 def show(id):
     product = Product.getProductById(id)
@@ -345,6 +359,7 @@ def show(id):
         flash('Product not found', 'error')
         return redirect(url_for('main.dashboard'))
 
+# Route to handle the purchase of a product by its ID
 @main.route('/product/<int:id>/buy', methods=['POST','GET'])
 def buy(id):
     if checkIfLoggedin()=='user':
@@ -362,7 +377,9 @@ def buy(id):
         return redirect(url_for('main.login'))
 
 
-# Profile Information manipulation
+# ---------------------------------- Profile Information manipulation ---------------------------------
+
+# Route to display the user's profile if logged in
 @main.route('/profile')
 def showProfile():
     if (checkIfLoggedin()=="user"):
@@ -375,6 +392,7 @@ def showProfile():
         flash('Please login first.', 'error')
         return redirect(url_for('main.login'))
 
+# Route to edit the user's profile
 @main.route('/editProfile/<int:id>'  ,methods=['GET','POST'])
 def editProfile(id):
     if (checkIfLoggedin()=="user"):
@@ -386,7 +404,7 @@ def editProfile(id):
         flash('Please login first.', 'error')
         return redirect(url_for('main.login'))
 
-
+# Route to update the user's profile information
 @main.route('/update/<int:id>',methods=['POST'])
 def updateProfile(id):
     if (checkIfLoggedin()=="user"):
@@ -443,15 +461,18 @@ def updateProfile(id):
         flash('Please login first.', 'error')
         return redirect(url_for('main.login'))
         
-# Contact us Form manipulation
+#------------------------- Contact us Form manipulation -------------------------------------
+
+# Path to the JSON file where contact data will be stored
 contact_file = os.path.join(os.path.dirname(__file__), '../data/contact_data.json')
 
+# Route to render the contact page
 @main.route('/contact')
 def contact():
     return render_template('user/contact.html')
 
-def save_data_to_JSON(data):
-    
+# Function to save contact data to a JSON file
+def save_data_to_JSON(data):    
     if not os.path.exists(contact_file):
         with open(contact_file, 'w') as file:
             json.dump([], file)
@@ -467,6 +488,7 @@ def save_data_to_JSON(data):
     with open(contact_file, 'w') as file:
         json.dump(content, file, indent=4)
         
+# Route to process the contact form submission and save data to JSON.
 @main.route('/submit_contact',methods=['POST'])
 def submit_contact ():
     if request.method== 'POST':
@@ -485,7 +507,8 @@ def submit_contact ():
         
     flash('Error submitting contact form', 'error')
     return redirect(url_for('main.contact'))
-    
+
+# Route to render the admin contact page with submitted contact form data
 @main.route('/admin_contact')
 def admin_contact():
     if (checkIfLoggedin()=="admin"):

@@ -1,33 +1,16 @@
-.table-scroll {
-  overflow-y: auto;
-  max-height: 450px;
-}
-
-.table_parent {
-  min-height: calc(100vh - 225px);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.form_table_parent {
-  min-height: calc(100vh - 300px);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.form_parent {
-  min-height: calc(100vh - 225px);
-}
-.image_style {
-  width: 100%;
-}
-.logo_style {
-  width: 10%;
-}
 * {
   box-sizing: border-box;
 }
+body {
+  font-family: "cairo", serif;
+  background-color: var(--bg-color);
+}
+::selection {
+  background-color: var(--main-color);
+  color: white;
+}
+
+/* theme mode styling*/
 :root {
   --main-color: #ed2027;
   --bg-color: #fefefe;
@@ -57,16 +40,6 @@
   background-color: var(--bg-color-secondary);
   color: var(--text-color);
 }
-.nav_fixed {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 1000;
-}
-.padding-fixed {
-  padding: 100px;
-}
 .bg_color_secondary {
   background-color: var(--bg-color-secondary);
   color: var(--text-color) !important;
@@ -77,6 +50,31 @@
 .text_color {
   color: var(--text-color);
 }
+
+/* scrolling CSS */
+
+.table-scroll {
+  overflow-y: auto;
+  max-height: 450px;
+}
+.descripton_scroll {
+  overflow-y: auto;
+  max-height: 125px;
+}
+.message_scroll {
+  overflow-y: auto;
+  max-height: 110px;
+}
+
+/* Table Styling  */
+
+.table_parent {
+  min-height: calc(100vh - 225px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .table-style {
   background-color: var(--bg-color-secondary) !important;
   display: table;
@@ -103,24 +101,47 @@
   background-color: var(--bg-table-strip);
 }
 
-body {
-  font-family: "cairo", serif;
-  background-color: var(--bg-color);
+.form_table_parent {
+  min-height: calc(100vh - 300px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-.cardImage {
+
+.form_parent {
+  min-height: calc(100vh - 225px);
+}
+
+/* fixed the navbar at the top of the page */
+.nav_fixed {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+}
+.padding-fixed {
+  padding: 100px;
+}
+
+/* width stylin */
+.image_style {
   width: 100%;
 }
+.logo_style {
+  width: 10%;
+}
+
+/* rounded and radius bordering */
 .circle {
   border-radius: 50% !important;
 }
 .w-95 {
   width: 95%;
 }
-
 .rounded_perfet {
   border-radius: 20px !important;
 }
-
 .rounded_perfet-top {
   border-top-left-radius: 20px !important;
   border-top-right-radius: 20px !important;
@@ -130,22 +151,11 @@ body {
   border-bottom-left-radius: 20px !important;
   border-bottom-right-radius: 20px !important;
 }
+
+
 .border_less {
   border: none !important;
 }
-.descripton_scroll {
-  overflow-y: auto;
-  max-height: 125px;
-}
-.message_scroll {
-  overflow-y: auto;
-  max-height: 110px;
-}
-::selection {
-  background-color: var(--main-color);
-  color: white;
-}
-
 .hide {
   opacity: 0;
   transition: opacity 0.5s ease;
@@ -328,7 +338,9 @@ footer img:focus,
 footer a:focus {
   outline: none;
 }
-
+.cardImage {
+  width: 100%;
+}
 /* //////////scrollbar/////////// */
 
 ::-webkit-scrollbar {

@@ -30,7 +30,7 @@
           </div>
     
           <div class="text-end d-flex justify-content-center align-items-center">
-            <button class="btn btn-secondary mx-2 theme "> <i class="fa-solid fa-circle-half-stroke"></i></button>
+            <button class="btn btn-secondary mx-2" id="theme"> <i class="fa-solid fa-circle-half-stroke"></i></button>
 
             <form action="/logout" onsubmit="logout()">
               <button type="submit" class="btn btn-danger">Logout</button>
@@ -63,42 +63,7 @@
 
     <div>{% block content %} {% endblock %}</div>
 
-    <script>
 
-function applyTheme(theme) {
-if (theme === 'dark') {
-document.body.classList.add('dark');
-} else {
-document.body.classList.remove('dark');
-}
-}
-
-function saveTheme(theme) {
-localStorage.setItem('theme', theme);
-}
-
-const savedTheme = localStorage.getItem('theme');
-
-if (savedTheme) {
-applyTheme(savedTheme);
-} else {
-const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-applyTheme(systemPrefersDark ? 'dark' : 'light');
-}
-
-window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
-const newTheme = event.matches ? 'dark' : 'light';
-applyTheme(newTheme);
-saveTheme(newTheme);
-});
-
-document.querySelector('.theme').addEventListener('click', function() {
-const currentTheme = document.body.classList.contains('dark') ? 'dark' : 'light';
-const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-applyTheme(newTheme);
-saveTheme(newTheme);
-});
-    </script>
     {% if session.get('email') %}
 
     <script>

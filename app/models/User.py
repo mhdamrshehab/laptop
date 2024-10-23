@@ -2,6 +2,7 @@ from app import db
 from datetime import datetime
 from werkzeug.security import check_password_hash
 
+# Initilaztion of the user_product with relation between the product table and user table by thier ids
 user_product = db.Table('user_product',
     db.Column('user_id', db.Integer, db.ForeignKey('user.id'), nullable=False),
     db.Column('product_id', db.Integer, db.ForeignKey('product.id'), nullable=False),
@@ -41,18 +42,15 @@ class User(db.Model):
             return 1
         return -1
     
-    
-    def pass_confirmed(password, confirm_password):
-        if password == confirm_password:
-            return True
-        return False
-    
+    # Function that check if the user is exist in the database using its email or username
     def checkExistingUser(email,username):
         email = User.query.filter_by(email=email).first()
         username=User.query.filter_by(username=username).first()
         if email or username:
             return True
         return False
+    
+    # Function that user edit its email or username or not.
     def checkEditProfile(id,email,username):
         user=User.getUserById(id)
         if user.email == email and user.username == username:
@@ -62,10 +60,13 @@ class User(db.Model):
                 return True
             return False
         return False
+    
+    #  Function to user by its email
     def getUserByEmail(email):
         user = User.query.filter_by(email=email).first()
         return user
-    
+
+    #  Function to user by its id
     def getUserById(id):
         user = User.query.filter_by(id=id).first()
         return user
