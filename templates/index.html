@@ -20,7 +20,7 @@
                 {% endif %}
   
                 <div class="col-md-4 mb-3">
-                  <a href="" class="text-decoration-none">
+                  <a href="{{url_for('main.show', id=product.id)}}" class="text-decoration-none">
                     <div class="card rounded-5 bg_color_secondary">
                       <img class="img-fluid rounded-5 cardImage" alt="{{ product.title }}" src="{{ url_for('static', filename='uploads/products/' + (product.image if product.image else 'def_image.png')) }}">
                       <div class="card-body">
@@ -53,7 +53,7 @@
         </div>
   
         <div class="col-12 text-center">
-          <button class="btn btn-danger">Show More</button>
+          <a href="/products" class="btn btn-danger">Show More</a>
         </div>
       </div>
     </div>
@@ -81,7 +81,7 @@
                               {% endif %}
 
                               <div class="col-md-4 mb-3">
-                                <a href="" class="text-decoration-none">
+                                <a href="{{url_for('main.show', id=product.id)}}" class="text-decoration-none">
                                   <div class="card rounded-5 bg_color">
                                     <img class="img-fluid rounded-5 cardImage" alt="{{ product.title }}" src="{{ url_for('static', filename='uploads/products/' + (product.image if product.image else 'def_image.png')) }}">
                                     <div class="card-body">
@@ -123,9 +123,7 @@
               </a>
           </div>
           <div class="col-12 text-center">
-            <button class="btn btn-danger">
-                Show More
-            </button>
+            <a href="/products" class="btn btn-danger">Show More</a>
           </div>
         </div>
     </div>
@@ -151,7 +149,7 @@
                         {% endif %}
 
                         <div class="col-md-4 mb-3">
-                          <a href="" class="text-decoration-none">
+                          <a href="{{url_for('main.show', id=product.id)}}" class="text-decoration-none">
                             <div class="card rounded-5 bg_color_secondary">
                               <img class="img-fluid rounded-5 cardImage" alt="{{ product.title }}" src="{{ url_for('static', filename='uploads/products/' + (product.image if product.image else 'def_image.png')) }}">
                               <div class="card-body">
@@ -185,9 +183,8 @@
             </a>
         </div>
         <div class="col-12 text-center">
-          <button class="btn btn-danger">
-              Show More
-          </button>
+          <a href="/products" class="btn btn-danger">Show More</a>
+
         </div>
       </div>
   </div>

@@ -12,14 +12,39 @@
             </div>
         </div>
 
-        <div class="row">
+        <div class="row justify-content-center align-items-center">
             <div class="col-md-6">
                 <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script> 
 
-                <dotlottie-player class="w-100" src="https://lottie.host/fe2fbab6-0b4b-4fca-8158-32deaf7e3c89/t7afocGSqn.json" background="transparent" speed="1" loop autoplay></dotlottie-player>            </div>
+
+                <dotlottie-player class="w-100" src="https://lottie.host/1407d8cc-94bc-4be2-91eb-d274e7693514/afwbLEmOgD.json" background="transparent" speed="1" loop autoplay></dotlottie-player>
+
+            </div>
             <div class="col-md-6">
                  <div>
+                    <div class="shadow-lg p-5 rounded-4 bg_color_secondary">
+                        <form action="{{url_for('main.submit_contact')}}" method="POST" onsubmit="return validateContactForm()">
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Name</label>
+                                <input type="text" class="form-control" id="name" name="name" placeholder="Enter your name">
+                                <div id="name-error" class="text-danger"></div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email address</label>
+                                <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email">
+                                <div id="email-error" class="text-danger"></div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="message" class="form-label">Message</label>
+                                <textarea class="form-control" id="message" rows="5" name="message" placeholder="Write your message"></textarea>
+                                <div id="message-error" class="text-danger"></div>
 
+                            </div>
+                            <div class="d-grid">
+                                <button type="submit" class="fs-5 btn btn-danger">Submit</button>
+                            </div>
+                        </form>
+                    </div>
                  </div>
             </div>
     </div>

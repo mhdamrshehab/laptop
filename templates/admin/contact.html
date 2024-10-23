@@ -1,0 +1,53 @@
+{% extends 'admin-base.html' %} {% block content %}
+<section class="form_table_parent">
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="text-center main_color mb-3 ">
+                <h2 class="fw-bold">Contact submission </h2>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="table-scroll  shadow rounded-4">
+                <table class="table-style text-center  ">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Message</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for contact in content %}
+
+                        <tr class="fs-5 ">
+                            <td class="col-md-3">{{contact.name}}</td>
+                            <td class="col-md-2">{{ contact.email }}</td>
+                            <td> 
+                                <p id="message_{{contact.id}}" class="message_content">{{contact.message}}</p>
+                            </td>
+                        </tr>
+                        {%endfor%}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+
+</div>
+</section>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const messages = document.querySelectorAll('.message_content');
+        
+        messages.forEach(function(message) {
+            if (message.offsetHeight > 110) {
+                message.classList.add('message_scroll');
+            }
+        });
+    });
+</script>
+{%endblock%}

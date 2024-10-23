@@ -5,6 +5,7 @@ from werkzeug.security import generate_password_hash
 from app.models.Product import Product
 from werkzeug.utils import secure_filename
 import os
+import json
 
 
 main = Blueprint('main', __name__)
@@ -20,6 +21,15 @@ def index():
     return render_template('index.html', best_sellers=best_sellers , offers=offers, newArrivals= newArrivals)
 
 # Auth methods
+def checkIfLoggedin():
+    email=session.get('email')
+    isAdmin = session.get('isAdmin')
+    if (email != "" and isAdmin == 0):
+        return "user"
+    elif (email != "" and isAdmin == 1):
+        return "admin"
+    else:
+        return "none"
 
 @main.route('/login',methods=['Get','POST'])
 def create():
@@ -27,7 +37,6 @@ def create():
 
 @main.route('/auth',methods=['GET','POST'])
 def login():
-   
    if request.method == 'POST':
       email = request.form['email']
       password = request.form['password']
@@ -45,9 +54,8 @@ def login():
             return redirect(url_for('main.dashboard'))
       else:
           flash('Invalid email or password', 'error')
-          return redirect(url_for('main.login'))
-      
-   return render_template('Auth/login.html')
+          return redirect(url_for('main.create'))
+   return redirect(url_for('main.create'))
       
 @main.route('/logout', methods=['GET','POST'])
 def logout():
@@ -105,164 +113,204 @@ def register():
     
     return render_template('Auth/register.html')
 
-
 @main.route('/dashbaord', methods=['GET', 'POST'])
 def dashboard():
-    if 'email' in session:
+    if (checkIfLoggedin()== 'admin'):
         user = User.getUserByEmail(session['email'])
         products = Product.query.all()
         return render_template('admin/dashboard.html',products=products, user=user)
-    return redirect(url_for('main.login'))
+    elif (checkIfLoggedin()== 'user'):
+        flash ('You are not Authorized to open this page', 'error')
+        return redirect(url_for('main.index'))
+    else:
+        flash('Please login first.', 'error')
+        return redirect(url_for('main.login'))
     
 # -----------------------------------------------------------------------------
 
 # Product methods CRUD
-
 @main.route('/admin/product/<int:id>', methods=['GET'])
 def show_product(id):
-    product = Product.getProductById(id)
-    return render_template('admin/products/show.html', product=product)
-
-
- 
+    if (checkIfLoggedin()== 'admin'):
+        product = Product.getProductById(id)
+        return render_template('admin/products/show.html', product=product)
+    elif (checkIfLoggedin()== 'user'):
+        flash ('You are not Authorized to open this page', 'error')
+        return redirect(url_for('main.index')) 
+    else:
+        flash('Please login first.', 'error')
+        return redirect(url_for('main.login'))
 @main.route('/product/create')
 def create_product():
+    if (checkIfLoggedin()== 'admin'):
       return render_template('admin/products/create.html')
+    elif (checkIfLoggedin()== 'user'):
+        flash ('You are not Authorized to open this page', 'error')
+        return redirect(url_for('main.index')) 
+    else:
+        flash('Please login first.', 'error')
+        return redirect(url_for('main.login'))
 
 
 @main.route('/product/add', methods=['GET', 'POST'])
 def add_product():
-    if request.method == 'POST':
-        title = request.form.get('title')
-        description = request.form.get('description')
-        category = request.form.get('category')
-        color = request.form.get('color')
-        quantity = request.form.get('quantity')
-        price = request.form.get('price')
-        offer_price = request.form.get('offer_price')
-        model = request.form.get('model')
-        brand = request.form.get('brand')
+    if (checkIfLoggedin()== 'admin'):
+        if request.method == 'POST':
+            title = request.form.get('title')
+            description = request.form.get('description')
+            category = request.form.get('category')
+            color = request.form.get('color')
+            quantity = request.form.get('quantity')
+            price = request.form.get('price')
+            offer_price = request.form.get('offer_price')
+            model = request.form.get('model')
+            brand = request.form.get('brand')
 
-        new_product = Product(
-            title=title,
-            description=description,
-            category=category,
-            color=color,
-            quantity=quantity,
-            price=price,
-            offer_price=offer_price,
-            model=model,
-            brand=brand,
-            image=None
+            new_product = Product(
+                title=title,
+                description=description,
+                category=category,
+                color=color,
+                quantity=quantity,
+                price=price,
+                offer_price=offer_price,
+                model=model,
+                brand=brand,
+                image=None
 
-        )
-        try:
-            db.session.add(new_product)
-            db.session.commit()
-            
-            product_id=new_product.id
-            image = request.files.get('image')
-            
-            if image:
-                image_filename = f"{product_id}_{secure_filename(image.filename)}"
-                uploads_dir = os.path.join(current_app.root_path, '../static/uploads/products')
+            )
+            try:
+                db.session.add(new_product)
+                db.session.commit()
                 
-                if not os.path.exists(uploads_dir):
-                    os.makedirs(uploads_dir)
+                product_id=new_product.id
+                image = request.files.get('image')
+                
+                if image:
+                    image_filename = f"{product_id}_{secure_filename(image.filename)}"
+                    uploads_dir = os.path.join(current_app.root_path, '../static/uploads/products')
                     
-                image_path = os.path.join(uploads_dir, image_filename)         
-                image.save(image_path)
-                
-                new_product.image = image_filename
-                db.session.commit()  
-                
-            flash('Product added successfully!', 'success')
-            return redirect(url_for('main.dashboard'))
-        except:
-            db.session.rollback()
-            flash('Error adding product. Please try again.', 'error')
-
-    return render_template('admin/products/create.html')
-
+                    if not os.path.exists(uploads_dir):
+                        os.makedirs(uploads_dir)
+                        
+                    image_path = os.path.join(uploads_dir, image_filename)         
+                    image.save(image_path)
+                    
+                    new_product.image = image_filename
+                    db.session.commit()  
+                    
+                flash('Product added successfully!', 'success')
+                return redirect(url_for('main.dashboard'))
+            except:
+                db.session.rollback()
+                flash('Error adding product. Please try again.', 'error')
+        return render_template('admin/products/create.html')
+    elif (checkIfLoggedin()== 'user'):
+        flash ('You are not Authorized to open this page', 'error')
+        return redirect(url_for('main.index')) 
+    else:
+        flash('Please login first.', 'error')
+        return redirect(url_for('main.login'))
 
 @main.route('/product/<int:id>/update', methods=['GET', 'POST'])
 def update_product(id):
-    product = Product.getProductById(id)
-    return render_template('admin/products/update.html', product=product)
+    if (checkIfLoggedin()== 'admin'):
+        product = Product.getProductById(id)
+        return render_template('admin/products/update.html', product=product)
+    elif (checkIfLoggedin()== 'user'):
+        flash ('You are not Authorized to open this page', 'error')
+        return redirect(url_for('main.index')) 
+    else:
+        flash('Please login first.', 'error')
+        return redirect(url_for('main.login'))
 
 @main.route('/product/<int:id>/edit', methods=['POST'])
 def edit_product(id):
-    if request.method == 'POST':
-        product = Product.getProductById(id)
-        
-        product.title = request.form.get('title')
-        product.description = request.form.get('description')
-        product.category = request.form.get('category')
-        product.color = request.form.get('color')
-        product.quantity = request.form.get('quantity')
-        product.price = request.form.get('price')
-        product.offer_price = request.form.get('offer_price')
-        product.model = request.form.get('model')
-        product.brand = request.form.get('brand')
-        
-        try:
-            db.session.commit()
-
-            image = request.files.get('image')
-            if image:
-                image_filename = f"{product.id}_{secure_filename(image.filename)}"
-                
-                uploads_dir = os.path.join(current_app.root_path, '../static/uploads/products')
-                
-                if product.image:
-                    old_image_path = os.path.join(uploads_dir, product.image)
-                    if os.path.exists(old_image_path):
-                        os.remove(old_image_path)
-
-                if not os.path.exists(uploads_dir):
-                    os.makedirs(uploads_dir)
-                    
-                image_path = os.path.join(uploads_dir, image_filename)
-                image.save(image_path)
-                
-                product.image = image_filename
-                db.session.commit()
+    if (checkIfLoggedin()== 'admin'):
+        if request.method == 'POST':
+            product = Product.getProductById(id)
             
-            flash('Product updated successfully!', 'success')
-            return redirect(url_for('main.dashboard'))
-        except Exception as e:
-            db.session.rollback()
-            flash(f'Error updating product: {str(e)}', 'error')
-            return render_template('admin/products/update.html', product=product)
+            product.title = request.form.get('title')
+            product.description = request.form.get('description')
+            product.category = request.form.get('category')
+            product.color = request.form.get('color')
+            product.quantity = request.form.get('quantity')
+            product.price = request.form.get('price')
+            product.offer_price = request.form.get('offer_price')
+            product.model = request.form.get('model')
+            product.brand = request.form.get('brand')
+            
+            try:
+                db.session.commit()
 
-    return redirect(url_for('main.dashboard'))
+                image = request.files.get('image')
+                if image:
+                    image_filename = f"{product.id}_{secure_filename(image.filename)}"
+                    
+                    uploads_dir = os.path.join(current_app.root_path, '../static/uploads/products')
+                    
+                    if product.image:
+                        old_image_path = os.path.join(uploads_dir, product.image)
+                        if os.path.exists(old_image_path):
+                            os.remove(old_image_path)
+
+                    if not os.path.exists(uploads_dir):
+                        os.makedirs(uploads_dir)
+                        
+                    image_path = os.path.join(uploads_dir, image_filename)
+                    image.save(image_path)
+                    
+                    product.image = image_filename
+                    db.session.commit()
+                
+                flash('Product updated successfully!', 'success')
+                return redirect(url_for('main.dashboard'))
+            except Exception as e:
+                db.session.rollback()
+                flash(f'Error updating product: {str(e)}', 'error')
+                return render_template('admin/products/update.html', product=product)
+
+        return redirect(url_for('main.dashboard'))
+    elif (checkIfLoggedin()== 'user'):
+        flash ('You are not Authorized to open this page', 'error')
+        return redirect(url_for('main.index')) 
+    else:
+        flash('Please login first.', 'error')
+        return redirect(url_for('main.login'))
+
 @main.route('/product/<int:id>/delete', methods=['POST'])
 def delete_product(id):
-    try:
-        product = Product.getProductById(id)
-        if not product:
-            flash('Product not found.', 'error')
+    if (checkIfLoggedin()== 'admin'):
+        try:
+            product = Product.getProductById(id)
+            if not product:
+                flash('Product not found.', 'error')
+                return redirect(url_for('main.dashboard'))
+
+            if product.image:
+                uploads_dir = os.path.join(current_app.root_path, 'static/uploads/products')
+                image_path = os.path.join(uploads_dir, product.image)
+                
+                if os.path.exists(image_path):
+                    os.remove(image_path)
+
+            db.session.delete(product)
+            db.session.commit()
+
+            flash('Product deleted successfully!', 'success')
             return redirect(url_for('main.dashboard'))
-
-        if product.image:
-            uploads_dir = os.path.join(current_app.root_path, 'static/uploads/products')
-            image_path = os.path.join(uploads_dir, product.image)
-            
-            if os.path.exists(image_path):
-                os.remove(image_path)
-
-        db.session.delete(product)
-        db.session.commit()
-
-        flash('Product deleted successfully!', 'success')
-        return redirect(url_for('main.dashboard'))
-    
-    except Exception as e:
-        db.session.rollback()
-        flash(f'Error deleting product: {str(e)}', 'error')
-        return redirect(url_for('main.dashboard'))
-    
-    
+        
+        except Exception as e:
+            db.session.rollback()
+            flash(f'Error deleting product: {str(e)}', 'error')
+            return redirect(url_for('main.dashboard'))
+    elif (checkIfLoggedin()== 'user'):
+        flash ('You are not Authorized to open this page', 'error')
+        return redirect(url_for('main.index')) 
+    else:
+        flash('Please login first.', 'error')
+        return redirect(url_for('main.login'))
+   
 # --------------------------------- user routes
 @main.route('/about')
 def about():
@@ -297,87 +345,169 @@ def show(id):
         flash('Product not found', 'error')
         return redirect(url_for('main.dashboard'))
 
-@main.route('/product/<int:id>/buy', methods=['POST'])
+@main.route('/product/<int:id>/buy', methods=['POST','GET'])
 def buy(id):
-    if session.get('email'):
+    if checkIfLoggedin()=='user':
         if Product.buyProduct(id):
             flash('Product bought successfully!', 'success')
             return redirect(url_for('main.showProducts'))
         else:
             flash('Failed to buy product', 'error')
             return redirect(url_for('main.showProducts'))
-    else:
+    elif checkIfLoggedin()== 'admin':
+        flash('You are not authoriezed to buy product.', 'error')
+        return redirect(url_for('main.dashboard'))
+    else:    
         flash ('Log in first then buy your product.', 'error')
         return redirect(url_for('main.login'))
 
+
+# Profile Information manipulation
 @main.route('/profile')
 def showProfile():
-    email=session.get('email')
-    user = User.getUserByEmail(email)
-    return render_template('user/profile.html' ,user=user)
-
+    if (checkIfLoggedin()=="user"):
+        email=session.get('email')
+        user = User.getUserByEmail(email)
+        return render_template('user/profile.html' ,user=user)
+    elif (checkIfLoggedin()=="admin"):
+        return redirect(url_for('main.dashboard'))
+    else:
+        flash('Please login first.', 'error')
+        return redirect(url_for('main.login'))
 
 @main.route('/editProfile/<int:id>'  ,methods=['GET','POST'])
 def editProfile(id):
-    user=User.getUserById(id)
-    return render_template('user/editProfile.html',user=user)
+    if (checkIfLoggedin()=="user"):
+        user=User.getUserById(id)
+        return render_template('user/editProfile.html',user=user)
+    elif (checkIfLoggedin()=="admin"):
+        return redirect(url_for('main.dashboard'))
+    else:
+        flash('Please login first.', 'error')
+        return redirect(url_for('main.login'))
+
 
 @main.route('/update/<int:id>',methods=['POST'])
 def updateProfile(id):
-    if request.method == 'POST':
-        flag = False
-        user=User.getUserById(id)
-        user.name=request.form.get('name')
-        username=request.form.get('username')
-        email=request.form.get('email')
-            
-        user.phone=request.form.get('phone')
-        password = request.form.get('password')
-        hashed_password = generate_password_hash(password)
-        
-        if User.checkEditProfile(id,email,username):
-            flash('Email or username already exists', 'error')
-            return redirect(url_for('main.editProfile',id=id))    
-        user.email= email
-        user.username=username
-        if password != "":
-            user.password = hashed_password
-
-        image = request.files.get('image')
-        image_filename = None
-        
-        try:
-            db.session.commit()
-
-            image = request.files.get('image')
-            if image:
-                image_filename = f"{user.id}_{secure_filename(image.filename)}"
-                
-                uploads_dir = os.path.join(current_app.root_path, '../static/uploads/users')
-                
-                if user.image:
-                    old_image_path = os.path.join(uploads_dir, user.image)
-                    if os.path.exists(old_image_path):
-                        os.remove(old_image_path)
-
-                if not os.path.exists(uploads_dir):
-                    os.makedirs(uploads_dir)
+    if (checkIfLoggedin()=="user"):
+            if request.method == 'POST':
+                user=User.getUserById(id)
+                user.name=request.form.get('name')
+                username=request.form.get('username')
+                email=request.form.get('email')
                     
-                image_path = os.path.join(uploads_dir, image_filename)
-                image.save(image_path)
+                user.phone=request.form.get('phone')
+                password = request.form.get('password')
+                hashed_password = generate_password_hash(password)
                 
-                user.image = image_filename
-                db.session.commit()
-            
-            flash('User updated successfully!', 'success')
-            return redirect(url_for('main.logout'))
-        except Exception as e:
-            db.session.rollback()
-            flash(f'Error updating user: {str(e)}', 'error')
-            return render_template('/user/editPrfile.html', user=user)
+                if User.checkEditProfile(id,email,username):
+                    flash('Email or username already exists', 'error')
+                    return redirect(url_for('main.editProfile',id=id))    
+                user.email= email
+                user.username=username
+                if password != "":
+                    user.password = hashed_password
 
-    return redirect(url_for('main.showProfile'))
+                image = request.files.get('image')
+                image_filename = None
+                
+                db.session.commit()
+
+                image = request.files.get('image')
+                if image:
+                    image_filename = f"{user.id}_{secure_filename(image.filename)}"
+                    
+                    uploads_dir = os.path.join(current_app.root_path, '../static/uploads/users')
+                    
+                    if user.image:
+                        old_image_path = os.path.join(uploads_dir, user.image)
+                        if os.path.exists(old_image_path):
+                            os.remove(old_image_path)
+
+                    if not os.path.exists(uploads_dir):
+                        os.makedirs(uploads_dir)
+                        
+                    image_path = os.path.join(uploads_dir, image_filename)
+                    image.save(image_path)
+                    
+                    user.image = image_filename
+                    db.session.commit()
+                
+                flash('User updated successfully!', 'success')
+                return redirect(url_for('main.logout'))
+
+            return redirect(url_for('main.showProfile'))
+    elif (checkIfLoggedin()=="admin"):
+        return redirect(url_for('main.dashboard'))
+    else:
+        flash('Please login first.', 'error')
+        return redirect(url_for('main.login'))
         
+# Contact us Form manipulation
+contact_file = os.path.join(os.path.dirname(__file__), '../data/contact_data.json')
+
 @main.route('/contact')
 def contact():
     return render_template('user/contact.html')
+
+def save_data_to_JSON(data):
+    
+    if not os.path.exists(contact_file):
+        with open(contact_file, 'w') as file:
+            json.dump([], file)
+    
+    with open(contact_file, 'r') as file:
+        try:
+            content = json.load(file)
+        except json.JSONDecodeError:
+            content = []
+
+    content.append(data)
+    
+    with open(contact_file, 'w') as file:
+        json.dump(content, file, indent=4)
+        
+@main.route('/submit_contact',methods=['POST'])
+def submit_contact ():
+    if request.method== 'POST':
+        name = request.form.get('name')
+        email = request.form.get('email')
+        message = request.form.get('message')
+        print(name,email,message)
+        data= {
+            'name': name,
+            'email':email,
+            'message': message
+        }
+        save_data_to_JSON(data)
+        flash ('Contact Form submitted successfully', 'success')
+        return redirect(url_for('main.contact'))
+        
+    flash('Error submitting contact form', 'error')
+    return redirect(url_for('main.contact'))
+    
+@main.route('/admin_contact')
+def admin_contact():
+    if (checkIfLoggedin()=="admin"):
+        if os.path.exists(contact_file):
+            with open(contact_file, 'r') as file:
+                content = json.load(file)
+        else:
+            content = []
+        return render_template('admin/contact.html' ,content=content)
+    elif (checkIfLoggedin()=="user"):
+        return redirect(url_for('main.index'))
+    else:
+        flash('Please login first.', 'error')
+        return redirect(url_for('main.login'))
+
+        
+
+
+
+        
+
+
+        
+    
+            

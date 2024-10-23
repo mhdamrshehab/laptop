@@ -2,16 +2,14 @@
 {%block content%}
 <section class="bg_color">
     <div class="container py-5">
-        <form method="POST" action="{{ url_for('main.updateProfile',id=user.id) }}" id="edit_profile_page" enctype="multipart/form-data" onsubmit="return validateEditProfileForm
-        
-        ()">
+        <form method="POST" action="{{ url_for('main.updateProfile',id=user.id) }}" id="edit_profile_page" enctype="multipart/form-data" onsubmit="return validateEditProfileForm ()">
             <div class="row">
             <div class="col-md-3">
                 <div class="image circle">
                     {% if user.image %}
                     <img class="w-100 img-thumbnail circle"  src="{{ url_for('static', filename='uploads/users/' + user.image) }}" alt="{{ user.name }}">
                     {% else %}
-                    <img class="img-thumbnail image_style circle    " src="{{ url_for('static', filename='images/icon.png') }}"
+                    <img class="img-thumbnail image_style circle    " src="{{ url_for('static', filename='images/def_user.webp') }}"
                         alt="{{ user.name }}">
                     {% endif %}
                 </div>
@@ -29,7 +27,7 @@
                             <tr>
                                 <th>Name</th>
                                 <td> <input class="form-control" type="text" name="name" id="name" value="{{user.name}} ">
-                    <div id="name-error" class="text-danger"></div>
+                                    <div id="name-error" class="text-danger"></div>
 
                                 </td>
                             </tr>

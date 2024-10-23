@@ -1,15 +1,5 @@
 {% extends 'base.html' %} {% block content %}
-<div class="container">
-    {% with messages = get_flashed_messages(with_categories=true) %}
-      {% if messages %}
-        <div class="alert-messages">
-          {% for category, message in messages %}
-            <div class="alert alert-{{ category }}">{{ message }}</div>
-          {% endfor %}
-        </div>
-      {% endif %}
-    {% endwith %}
-  </div>
+
             
             <div class="login_Register_page">
                 <hgroup>
@@ -68,5 +58,16 @@
     if (storedEmail) {
         window.location.href = "/";
 }
+
+    document.querySelectorAll('.login_input').forEach(input => {
+        input.addEventListener('blur', function() {
+            if (this.value.trim() !== "") {
+                this.classList.add('used');
+            } else {
+                this.classList.remove('used');
+            }
+        });
+    });
+
     </script>
 {% endblock %}

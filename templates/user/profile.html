@@ -7,7 +7,7 @@
                         {% if user.image %}
                         <img class="w-100 img-thumbnail circle"  src="{{ url_for('static', filename='uploads/users/' + user.image) }}" alt="{{ user.name }}">
                         {% else %}
-                        <img class="img-thumbnail image_style circle    " src="{{ url_for('static', filename='images/icon.png') }}"
+                        <img class="img-thumbnail image_style circle    " src="{{ url_for('static', filename='images/def_user.webp') }}"
                             alt="{{ user.name }}">
                         {% endif %}
                     </div>

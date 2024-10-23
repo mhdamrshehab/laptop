@@ -1,8 +1,9 @@
 function validateLoginForm() {
     let email = document.getElementById("email").value;
     let password = document.getElementById("password").value;
-    let errorMessage = document.getElementById("error-message");
+    const errorMessage = document.getElementById("error-message");
 
+    console.log(errorMessage)
     let emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
 
     errorMessage.style.display = "none";
@@ -30,9 +31,9 @@ function validateLoginForm() {
 
 function validateRegisterForm() {
     const name = document.getElementById("name").value;
-    const email = document.getElementById("email").value;
-    const phone = document.getElementById('phone').value;
-    const username = document.getElementById('username').value;
+    const email = document.getElementById("email").value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    const username = document.getElementById('username').value.trim();
     const password = document.getElementById("password").value;
     const confirm_password = document.getElementById('confirm_password').value;
 
@@ -52,7 +53,10 @@ function validateRegisterForm() {
     passwordError.innerHTML = "";
     confirmPasswordError.innerHTML = "";
 
+    let passwordPattern = /(?=^.{10,}$)(?=.*?\d)(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[^a-zA-Z\d])/;
+
     let emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+
 
     if (!name) {
         nameError.innerHTML = "Name cannot be empty.";
@@ -63,8 +67,11 @@ function validateRegisterForm() {
         usernameError.innerHTML = "Username cannot be empty.";
         count++;
     }
-
-    if (!email.match(emailPattern)) {
+    if(!email){
+        emailError.innerHTML = "Email cannot be empty.";
+        count++;
+    }
+    else if (!email.match(emailPattern)) {
         emailError.innerHTML = "Please enter a valid email address.";
         count++;
   
@@ -74,8 +81,13 @@ function validateRegisterForm() {
         count++;
  
     }
-    if (isNaN(phone)) {
+    else if (isNaN(phone)) {
         phoneError.innerHTML = "Phone number must contain numbers only.";
+        count++;
+    }
+
+    if (password && !password.match(passwordPattern)) {
+        passwordError.innerHTML = "Password must be at least 10 characters long, contain one uppercase letter, one lowercase letter, one digit, and one special character.";
         count++;
     }
 
@@ -94,7 +106,7 @@ function validateRegisterForm() {
         count++;
 
     }
-
+// return count < 0
     if(count>0){
         return false}
     return true;
@@ -184,12 +196,11 @@ function validatePrdouctForm(){
     return true;
 
 }
-
-function validateEditProfileForm(){
+function validateEditProfileForm() {
     const name = document.getElementById("name").value;
-    const email = document.getElementById("email").value;
-    const phone = document.getElementById('phone').value;
-    const username = document.getElementById('username').value;
+    const email = document.getElementById("email").value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    const username = document.getElementById('username').value.trim();
     const password = document.getElementById("password").value;
     const confirm_password = document.getElementById('confirm_password').value;
 
@@ -209,9 +220,10 @@ function validateEditProfileForm(){
     passwordError.innerHTML = "";
     confirmPasswordError.innerHTML = "";
 
+    let passwordPattern = /(?=^.{10,}$)(?=.*?\d)(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[^a-zA-Z\d])/;
     let emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
 
-    if (!name) {
+   if (!name) {
         nameError.innerHTML = "Name cannot be empty.";
         count++;
     }
@@ -220,45 +232,83 @@ function validateEditProfileForm(){
         usernameError.innerHTML = "Username cannot be empty.";
         count++;
     }
-    
-    
+
     if (!email) {
         emailError.innerHTML = "Email cannot be empty.";
         count++;
-    }
+    } 
     
-
-    if (!email.match(emailPattern).strip()) {
+    else if (!email.match(emailPattern)) {
         emailError.innerHTML = "Please enter a valid email address.";
         count++;
-  
     }
+
     if (!phone) {
         phoneError.innerHTML = "Phone number cannot be empty.";
         count++;
- 
-    }
-    if (isNaN(phone)) {
+    } 
+    
+    else if (isNaN(phone)) {
         phoneError.innerHTML = "Phone number must contain numbers only.";
+        count++;
+    }
+
+    if (password && !password.match(passwordPattern)) {
+        passwordError.innerHTML = "Password must be at least 10 characters long, contain one uppercase letter, one lowercase letter, one digit, and one special character.";
         count++;
     }
 
     if (password != confirm_password) {
         confirmPasswordError.innerHTML = "Passwords do not match.";
         count++;
+    }
 
+    if (count > 0) {
+        return false;
+    }
+    return true;
+}
+
+function validateContactForm(){
+    let name = document.getElementById('name').value;
+    let email = document.getElementById('email').value.trim();
+    let message = document.getElementById('message').value;
+
+    let nameError = document.getElementById('name-error');
+    let emailError = document.getElementById('email-error');
+    let messageError = document.getElementById('message-error');
+
+    let count = 0;
+
+    nameError.innerHTML = "";
+    emailError.innerHTML = "";
+    messageError.innerHTML = "";
+
+    let emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+
+    if (!name) {
+        nameError.innerHTML = "Name cannot be empty.";
+        count++;
+    }
+    
+    if (!email) {
+        emailError.innerHTML = "Email cannot be empty.";
+        count++;
+    }
+    
+    if (email && !email.match(emailPattern)) {
+        emailError.innerHTML = "Please enter a valid email address.";
+        count++;
+  
+    }
+
+    if(!message){
+        messageError.innerHTML = "Message cannot be empty.";
+        count++;
     }
     if(count>0){
-        return false}
+        return false
+    }
     return true;
 
 }
-document.getElementById("searchForm").addEventListener("submit", function(event) {
-    let searchInput = document.getElementById("searchInput").value.trim();
-    let categorySelect = document.getElementById("categorySelect").value;
-
-    if (searchInput === "" || categorySelect === "") {
-        alert("Please enter a search term or select a category.");
-        event.preventDefault(); 
-    }
-});

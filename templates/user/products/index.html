@@ -89,6 +89,17 @@
 
     </nav>
 </div>
+ <script>
+    document.getElementById("searchForm").addEventListener("submit", function(event) {
+    let searchInput = document.getElementById("searchInput").value.trim();
+    let categorySelect = document.getElementById("categorySelect").value;
 
+    if (searchInput === "" || categorySelect === "") {
+        alert("Please enter a search term or select a category.");
+        event.preventDefault(); 
+    }
+})
+
+ </script>
 
 {% endblock %}

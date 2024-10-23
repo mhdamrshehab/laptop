@@ -14,3 +14,5 @@ setTimeout(function() {
         alert.parentNode.removeChild(alert);
     });
 }, 2500);
+
+
