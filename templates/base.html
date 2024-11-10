@@ -25,45 +25,53 @@
 
 <body class="pt-5">
   <!-- Navbar -->
-  <header class="p-3 nav_bg_color nav_fixed shadow">
+  <header class="p-3 nav_bg_color navbar navbar-expand-lg  nav_fixed shadow">
     <div class="container">
-      <div class="d-flex align-items-md-center justify-content-between justify-content-lg-between">
-        <div class="logo_style">
-          <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
-            <img class="w-100" src="{{url_for('static', filename='images/logo.png')}}" alt="">
-          </a>
-
-        </div>
-        <div>
-
-          <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0 ">
-            <li><a href="/" class="fs-5 nav-link px-2 text_color">Home</a></li>
-            <li><a href="/about" class="fs-5 nav-link px-2 text_color">About us</a></li>
-            <li><a href="/products" class="fs-5 nav-link px-2 text_color">Products</a></li>
-            <li><a href="/contact" class="fs-5 nav-link px-2 text_color">Contact Us</a></li>
-          </ul>
-        </div>
-
-        <div class="text-end d-flex justify-content-center align-items-center">
-          <button id="theme" class="btn btn-secondary theme mx-2"> <i class="fa-solid fa-circle-half-stroke"></i></button>
-
-          {% if session.get('email') %}
-          <div>
-            <a href="/profile" class="btn btn-outline-danger mx-2 circle"><i class="fa-solid fa-user"></i></a>
+      <div class=" w-50">
+          <div class="d-flex justify-content-between">
+            <a href="/" class= "navbar-brand  mb-2 mb-lg-0 text-dark text-decoration-none">
+              <img class="w-40" src="{{url_for('static', filename='images/logo.png')}}" alt="">
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+  
           </div>
-          <div>
-            <form action="/logout" onsubmit="logout()">
-              <button type="submit" class="btn btn-danger">Logout</button>
-            </form>
+      </div>  
+        <div class="collapse navbar-collapse " id="navbarSupportedContent">
+
+          <div class="d-flex justify-content-around  align-items-center">
+            <div class="d-flex justify-content-center align-items-center">
+              <ul class="nav navbar-nav mr-auto col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0 ">
+                <li  class="nav-item active"><a href="/" class="nav-link fs-5 nav-link px-2 text_color">Home</a></li>
+                <li class="nav-item"><a href="/about" class="nav-link fs-5 nav-link px-2 text_color">About us</a></li>
+                <li class="nav-item"><a href="/products" class="nav-link fs-5 nav-link px-2 text_color">Products</a></li>
+                <li class="nav-item"><a href="/contact" class="nav-link fs-5 nav-link px-2 text_color">Contact Us</a></li>
+              </ul>
+            </div>
+            <div class="text-end d-flex justify-content-center align-items-end">
+              <button id="theme" class="btn btn-secondary theme mx-2"> <i class="fa-solid fa-circle-half-stroke"></i></button>
+    
+              {% if session.get('email') %}
+              <div>
+                <a href="/profile" class="btn btn-outline-danger mx-2 circle"><i class="fa-solid fa-user"></i></a>
+              </div>
+              <div>
+                <form action="/logout" onsubmit="logout()">
+                  <button type="submit" class="btn btn-danger">Logout</button>
+                </form>
+              </div>
+    
+              {% else %}
+              <a href="/login" class="btn btn-outline-danger me-2">Login</a>
+              <a href="/register" class="btn btn-danger">Register</a>
+              {% endif %}
+    
+            </div>
           </div>
-
-          {% else %}
-          <a href="/login" class="btn btn-outline-danger me-2">Login</a>
-          <a href="/register" class="btn btn-danger">Register</a>
-          {% endif %}
-
         </div>
-      </div>
+
+
     </div>
   </header>
 
